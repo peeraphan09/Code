@@ -1,0 +1,69 @@
+<%- include('../../_header'); -%>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>แก้ไข Role ผู้ใช้งาน</title>
+    <style>
+        .form-container {
+            max-width: 500px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        select, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+        button {
+            background: #153f69;
+            color: #fff;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #0d2d4a;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 10px;
+            color: #153f69;
+            text-decoration: none;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>แก้ไข Role ของ <%= user.full_name %></h2>
+        <form method="POST" action="/admin/user/update/<%= user.id %>">
+        <label>Role</label>
+        <select name="role">
+            <option value="user" <%= user.role === 'user' ? 'selected' : '' %>>User</option>
+            <option value="admin" <%= user.role === 'admin' ? 'selected' : '' %>>Admin</option>
+        </select>
+        <br><br>
+        <button type="submit">บันทึก</button>
+    </form>
+        <a href="/admin/user" class="back-link">⬅ กลับไปหน้าผู้ใช้งาน</a>
+    </div>
+</body>
+</html>
+<%- include('../../_footer'); -%>

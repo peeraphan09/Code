@@ -1,0 +1,356 @@
+<%- include("../_header"); -%>
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>คำขอที่รออนุมัติ</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" />
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        table.dataTable tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+        /* Sidebar styling */
+        #sidebar {
+            position: fixed;
+            top: 0;
+            left: -250px; /* ซ่อนไว้ */
+            width: 250px;
+            height: 100%;
+            background-color: #343a40;
+            color: white;
+            transition: left 0.3s ease;
+            z-index: 1050;
+            padding-top: 60px;
+        }
+        #sidebar a {
+            display: block;
+            color: white;
+            padding: 15px 20px;
+            text-decoration: none;
+        }
+        #sidebar a:hover {
+            background-color: #495057;
+        }
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            display: none;
+            z-index: 1040;
+        }
+
+        /* ปรับ table ให้กว้างและอยู่กึ่งกลาง */
+        .dataTables_wrapper {
+            width: 90%;
+            margin: auto;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        /* ปรับปุ่มในฟอร์ม */
+        form {
+            display: flex;
+            gap: 5px;
+            justify-content: center;
+        }
+        button {
+            padding: 6px 12px;
+            font-size: 14px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button[name="action"][value="approve"] {
+            background-color: #28a745;
+            color: white;
+        }
+        button[name="action"][value="approve"]:hover {
+            background-color: #218838;
+        }
+        button[name="action"][value="reject"] {
+            background-color: #dc3545;
+            color: white;
+        }
+        button[name="action"][value="reject"]:hover {
+            background-color: #c82333;
+        }
+        .status-green {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 4px 8px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .status-red {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 4px 8px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        .status-blue {
+            background-color: #d1ecf1;
+            color: #0c5460;
+            padding: 4px 8px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        /* ปุ่มเปิด sidebar */
+        #btnSidebarOpen {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 1060;
+            background-color: #007BFF;
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        #btnSidebarOpen:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <!-- ปุ่มเปิด sidebar -->
+
+    <!-- Sidebar -->
+    <div id="sidebar">
+        <a href="/admin/dashboard">หน้าหลัก</a>
+        <a href="/admin/borrowRequests">คำขอที่รออนุมัติ</a>
+        <a href="/admin/equipmentList">รายการอุปกรณ์</a>
+        <a href="/admin/users">จัดการผู้ใช้</a>
+        <a href="/logout">ออกจากระบบ</a>
+    </div>
+
+    <!-- Overlay -->
+    <div id="overlay" onclick="closeSidebar()"></div>
+
+    <h1>คำขอที่รออนุมัติ</h1>
+
+    <% if (borrowRequests.length > 0) { %>
+
+        <% 
+        const sortedRequests = [...borrowRequests].sort((a, b) => {
+            const statusOrder = { 'pending': 0, 'approved': 1, 'rejected': 2 };
+
+            const aIsReturned = a.return_status === 'returned';
+            const bIsReturned = b.return_status === 'returned';
+
+            if (aIsReturned && !bIsReturned) return 1;
+            if (!aIsReturned && bIsReturned) return -1;
+
+            return statusOrder[a.status] - statusOrder[b.status];
+        });
+        %>
+
+        <table id="requestsTable" class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>ชื่อผู้ยืม</th>
+                    <th>ชื่ออุปกรณ์</th>
+                    <th>จำนวนที่ขอยืม</th>
+                    <th>วันที่ยืม</th>
+                    <th>วันที่จะคืน</th>
+                    <th>สถานะคำขอ</th>
+                    <th>สถานะรับของ</th>
+                    <th>การกระทำ</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% sortedRequests.forEach(request => { %>
+                    <tr>
+                        <td><%= request.first_name %> <%= request.last_name %></td>
+                        <td>(<%= request.equipment_code %>) <%= request.equipment_name %></td>
+                        <td><%= request.quantity %></td>
+                        <td>
+                            <% if (request.request_date) { 
+                               const date = new Date(new Date(request.request_date).getTime() - (7 * 60 * 60 * 1000));
+                               const buddhistYear = date.getFullYear() + 543;
+                               const thaiDate = date.toLocaleDateString('th-TH', {
+                                    day: 'numeric',
+                                    month: 'long',
+                                    year: 'numeric'
+                                });
+                               const thaiDateWithBuddhistYear = thaiDate.replace(date.getFullYear().toString(), buddhistYear.toString());
+                               const time = date.toLocaleTimeString('th-TH', {
+                                    hour: '2-digit',
+                                    minute: '2-digit',
+                                    hour12: false
+                                });
+                            %>
+                                <%= thaiDateWithBuddhistYear %> เวลา <%= time %> น.
+                            <% } else { %>
+                                -
+                            <% } %>
+                        </td>
+                        <td>
+                            <% if (request.return_date) {
+                                const returnDate = new Date(new Date(request.return_date).getTime() - (7 * 60 * 60 * 1000));
+                                const buddhistYearReturn = returnDate.getFullYear() + 543;
+                                const thaiReturnDate = returnDate.toLocaleDateString('th-TH', {
+                                    day: 'numeric',
+                                    month: 'long',
+                                    year: 'numeric'
+                                }).replace(returnDate.getFullYear().toString(), buddhistYearReturn.toString());
+
+                                const returnTime = returnDate.toLocaleTimeString('th-TH', {
+                                    hour: '2-digit',
+                                    minute: '2-digit',
+                                    hour12: false
+                                });
+                            %>
+                                <%= thaiReturnDate %> เวลา <%= returnTime %> น.
+                            <% } else { %>
+                                -
+                            <% } %>
+                        </td>
+                        <td>
+                            <% if (request.status === 'pending') { %>
+                                <span class="status-blue">รอดำเนินการ</span>
+                            <% } else if (request.status === 'approved') { %>
+                                <span class="status-green">อนุมัติแล้ว</span>
+                            <% } else if (request.status === 'rejected') { %>
+                                <span class="status-red">ปฏิเสธแล้ว</span>
+                            <% } %>
+                        </td>
+                        <td>
+                            <% if (request.status === 'approved') { %>
+                                <% if (request.pickup_status === 'picked_up') { %>
+                                    <span class="status-green">รับของแล้ว</span>
+                                <% } else { %>
+                                    <span class="status-red">ยังไม่ได้รับของ</span>
+                                <% } %> 
+                            <% } else { %>
+                                -
+                            <% } %>
+                        </td>
+                        <td>
+                            <% if (request.status === 'pending') { %>
+                                <form action="/admin/approveRequest/<%= request.id %>" method="POST">
+                                    <button type="submit" name="action" value="approve">อนุมัติ</button>
+                                    <button type="submit" name="action" value="reject">ปฏิเสธ</button>
+                                </form>
+                            <% } else if (request.status === 'approved') { %>
+                                <% if (request.pickup_status === 'picked_up' && request.return_status === 'returned') { %>
+                                    <span class="status-green">คืนแล้ว <br>
+                                        <form class="confirm-return-form" data-id="<%= request.id %>">
+                                        <button type="submit" class="btn btn-sm btn-warning">จัดเก็บ</button>
+                                    </form>
+                                <% } else if (request.pickup_status === 'picked_up') { 
+                                    const now = new Date();
+                                    const returnDate = new Date(new Date(request.return_date).getTime() - (7 * 60 * 60 * 1000)); // ปรับ timezone
+                                %>
+                                    <% if (now > returnDate && request.return_status !== 'returned') { %>
+                                        <span class="status-red">เกินกำหนดคืน</span>
+                                    <% } else { %>
+                                        <span class="status-blue">รอคืนอุปกรณ์</span>
+                                    <% } %>
+                                <% } else { %>
+                                    <span class="status-blue">รอรับของ</span>
+                                <% } %>
+                            <% } else { %>
+                                -
+                            <% } %>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    <% } else { %>
+        <p>ยังไม่มีคำขอยืมที่รออนุมัติ</p>
+    <% } %>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+    <!-- DataTables Thai language -->
+    <script>
+        $(document).ready(function () {
+            $('#requestsTable').DataTable({
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/th.json'
+                },
+                pageLength: 10,
+                lengthMenu: [5, 10, 25, 50],
+                order: [[3, 'desc']] // เรียงวันที่ยืมใหม่ล่าสุดขึ้นก่อน
+            });
+        });
+
+        function openSidebar() {
+            document.getElementById("sidebar").style.left = "0";
+            document.getElementById("overlay").style.display = "block";
+        }
+
+        function closeSidebar() {
+            document.getElementById("sidebar").style.left = "-250px";
+            document.getElementById("overlay").style.display = "none";
+        }
+ $(document).ready(function () {
+    // ฟังก์ชันซ่อนแถวตาม id ที่เก็บใน localStorage
+    function hideStoredRows() {
+      let hiddenIds = JSON.parse(localStorage.getItem('hiddenRows') || '[]');
+      hiddenIds.forEach(id => {
+        // หาแถวที่มี data-id ตรงกัน แล้วซ่อน
+        $(`form.confirm-return-form[data-id='${id}']`).closest('tr').hide();
+      });
+    }
+
+    // เรียกตอนโหลดหน้า
+    hideStoredRows();
+
+    // เมื่อกดปุ่มจัดเก็บ (submit form)
+    $('.confirm-return-form').on('submit', function (e) {
+      e.preventDefault();
+      const form = $(this);
+      const id = form.data('id');
+
+      // เก็บ id ลง localStorage
+      let hiddenIds = JSON.parse(localStorage.getItem('hiddenRows') || '[]');
+      if (!hiddenIds.includes(id)) {
+        hiddenIds.push(id);
+        localStorage.setItem('hiddenRows', JSON.stringify(hiddenIds));
+      }
+
+      // ซ่อนแถวทันที
+      form.closest('tr').fadeOut();
+    });
+  });
+
+</script>
+</body>
+</html>
+<%- include("../_footer"); -%>

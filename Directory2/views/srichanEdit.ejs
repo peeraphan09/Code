@@ -1,0 +1,52 @@
+<%- include("_header"); -%>
+<br>
+<br>
+<br>
+<h1 align="center">Edit</h1>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12 d-flex justify-content-center">
+            <form action="/srichan/edit/<%= data3 && data3[0] ? data3[0].id : '' %>" method="post" class="w-50">
+                <div class="form-group">
+                    <label for="name34">Name</label>
+                    <input type="text" name="name34" value="<%= data3 && data3[0] ? data3[0].name34 : '' %>" class="form-control">
+                </div>
+                <div class="form-group">
+                    <br>
+                <div class="form-group">
+                    <label for="a34">Student09</label> <!--&nbsp;&nbsp;&nbsp;<a href="/ads/list">เพิ่ม</a>-->
+                    <select class="form-control" id="a34" name="a34">
+                        <option value="">กรุณาเลือก</option>
+                        <% if (data2) { %>
+                            <% for (var i = 0; i < data2.length; i++) { %>
+                                <option value="<%= data2[i].id %>" <% if(data3 && data3[0] && data2[i].id==data3[0].a34){ %>selected<% } %> ><%= data2[i].student09 %></option>
+                            <% } %>
+                        <% } %>
+                    </select>
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="b34">Student28</label> <!-- &nbsp;&nbsp;&nbsp;<a href="/media/list">เพิ่ม</a> -->
+                   <select class="form-control" id="b34" name="b34">
+                       <option value="">กรุณาเลือก</option>
+                       <% if (data1) { %>
+                           <% for (var i = 0; i < data1.length; i++) { %>
+                               <option value="<%= data1[i].id %>" <% if(data3 && data3[0] && data1[i].id==data3[0].b34){ %>selected<% } %> ><%= data1[i].student28 %></option>
+                           <% } %>
+                       <% } %>
+                   </select>
+               </div>
+                
+                <br>
+                <div class="form-group">
+                    <label for="Address34"> Address </label>
+                    <input type="text" id="Address34" name="Address34" value="<%= data3 && data3[0] ? data3[0].address34 : '' %>" class="form-control">
+                </div>
+                <br>
+                <button type="submit" class="btn btn-primary">Update</button>
+                <a href="/srichan/list" class="btn btn-danger">ย้อนกลับ</a>
+            </form>
+        </div>
+    </div>
+</div>
+<%- include("_footer"); -%>

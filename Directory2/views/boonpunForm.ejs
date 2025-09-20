@@ -1,0 +1,47 @@
+<%- include("_header"); -%>
+<br>
+<br>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-5">
+            <form action="/boonpun/add" method="post">
+                <div class="form-group">
+                    <label for="name09">Name</label>
+                    <input type="text" name="name09" placeholder="Name" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="a09">Student34</label>
+                    <select class="form-control" name="a09">
+                        <option value="">กรุณาเลือก</option>
+                        <% if (data2) { %>
+                            <% for (var i = 0; i < data2.length; i++) { %>
+                                <option value="<%= data2[i].id %>"><%= data2[i].student34 %></option>
+                            <% } %>
+                         <% } %>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="b09">Student28</label>
+                    <select class="form-control" name="b09">
+                        <option value="">กรุณาเลือก</option>
+                        <% if (data1) { %>
+                            <% for (var i = 0; i < data1.length; i++) { %>
+                                <option value="<%= data1[i].id %>"><%= data1[i].student28 %></option>
+                            <% } %>
+                        <% } %>
+                    </select>
+                </div>
+         
+                <div class="form-group">
+                    <label for="Address09">Address</label>
+                    <input type="text" name="Address09" placeholder="Address" class="form-control">
+                </div>
+                <br>
+                <a href="/boonpun/list" class="btn btn-danger">ย้อนกลับ</a>
+                <button type="submit" class="btn btn-primary">Add</button>
+            </form>
+        </div>
+    </div>
+</div>
+<%- include("_footer"); -%>

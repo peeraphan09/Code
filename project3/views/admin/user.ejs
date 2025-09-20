@@ -1,0 +1,204 @@
+<%- include ('../_header') -%> 
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <link rel="stylesheet" href="/css/styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>จัดการผู้ใช้</title>
+
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-top: 80px;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+
+        th {
+            background-color: #007BFF;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007BFF;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: #0056b3;
+        }
+
+        .btn-delete {
+            color: red;
+        }
+
+        .btn-delete:hover {
+            color: darkred;
+        }
+
+        .btn-add {
+            display: inline-block;
+            margin: 20px;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .btn-add:hover {
+            background-color: #218838;
+        }
+
+        /* Sidebar */
+        #sidebar {
+            position: fixed;
+            top: 0;
+            left: -250px;
+            width: 250px;
+            height: 100%;
+            background-color: #343a40;
+            color: white;
+            padding: 20px;
+            transition: left 0.3s ease;
+            z-index: 1001;
+        }
+
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            display: none;
+            z-index: 1000;
+        }
+
+        .sidebar-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1100;
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .sidebar-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+
+    <!-- Sidebar -->
+    <div id="sidebar">
+        <h3>เมนู</h3>
+        <ul style="list-style: none; padding-left: 0;">
+            <li><a href="/" style="color: white;">หน้าแรก</a></li>
+            <li><a href="/admin" style="color: white;">แอดมิน</a></li>
+            <li><a href="/logout" style="color: white;">ออกจากระบบ</a></li>
+        </ul>
+    </div>
+
+    <h1>รายการผู้ใช้ทั้งหมด</h1>
+
+    <table id="userTable" class="display">
+        <thead>
+            <tr>
+                <th>ชื่อ</th>
+                <th>นามสกุล</th>
+                <th>อีเมล</th>
+                <th>เบอร์โทร</th>
+                <th>ชื่อผู้ใช้</th>
+                <th>สถานะ</th>
+                <th>การกระทำ</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% users.forEach(user => { %>
+                <tr>
+                    <td><%= user.first_name %></td>
+                    <td><%= user.last_name %></td>
+                    <td><%= user.email %></td>
+                    <td><%= user.phone %></td>
+                    <td><%= user.username %></td>
+                    <td><%= user.role %></td>
+                    <td>
+                        <a href="/admin/users/edit/<%= user.id %>">แก้ไข</a> |
+                        <a href="/admin/users/delete/<%= user.id %>" class="btn-delete" onclick="return confirm('คุณแน่ใจที่จะลบผู้ใช้?')">ลบ</a>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+
+    <a href="/admin/user/createUser" class="btn-add">เพิ่มผู้ใช้ใหม่</a>
+
+    <!-- jQuery + DataTables JS -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#userTable').DataTable({
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/th.json'
+                }
+            });
+        });
+
+        function openSidebar() {
+            document.getElementById("sidebar").style.left = "0";
+            document.getElementById("overlay").style.display = "block";
+        }
+
+        function closeSidebar() {
+            document.getElementById("sidebar").style.left = "-250px";
+            document.getElementById("overlay").style.display = "none";
+        }
+    </script>
+</body>
+</html>
+<%- include ('../_footer') -%>

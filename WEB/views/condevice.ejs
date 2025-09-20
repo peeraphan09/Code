@@ -1,0 +1,16 @@
+<h1 align="center" style="margin-top: 230px;">ต้องการลบข้อมูลนี้หรือไม่</h1>
+<div class="container">
+    <div class="row mt-2">
+        <div class="col-md-12 d-flex justify-content-center">   
+            <form method="post" action="<%= data ? '/Device/delete/' + data.id : '' %>"  class="w-120 mx-auto">
+                <% if (data) { %>
+                    <a align="center" href="/Device" class="btn btn-danger mx-auto" style="margin-top: 20px;">ย้อนกลับ</a>
+
+                <% } else { %>
+                    <a align="center" href="/Device" class="btn btn-danger mx-auto" style="margin-top: 20px;">ย้อนกลับ</a>
+                <% } %>
+                <button align="center" type="submit" class="btn btn-info mx-auto" style="margin-top: 20px;">ยืนยัน</button> 
+            </form>
+        </div>
+    </div>
+</div>

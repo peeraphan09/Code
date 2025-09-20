@@ -1,0 +1,117 @@
+<%- include("../_header2"); -%>
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ฟอร์มยืมอุปกรณ์</title>
+    <style>
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 28px;
+            color: #333;
+        }
+
+        form.borrow-form {
+            background-color: #fff;
+            padding: 30px 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        form.borrow-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        form.borrow-form input[type="number"],
+        form.borrow-form input[type="datetime-local"] {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        form.borrow-form input:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+            outline: none;
+        }
+
+        form.borrow-form button {
+            width: 100%;
+            padding: 12px;
+            background-color: #28a745;
+            color: #fff;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        form.borrow-form button:hover {
+            background-color: #218838;
+        }
+
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 25px;
+            font-size: 16px;
+            color: #007bff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .back-link:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>ฟอร์มยืมอุปกรณ์</h1>
+
+        <form method="POST" action="/users/borrowEquipment/<%= equipment.id %>" class="borrow-form">
+    <label for="quantity">จำนวน (สูงสุด <%= equipment.quantity %> ชิ้น):</label>
+    <input 
+        type="number" 
+        name="quantity" 
+        id="quantity" 
+        required 
+        min="1" 
+        max="<%= equipment.quantity %>"
+    >
+
+    <label for="return_date">วันที่จะคืน:</label>
+    <input type="datetime-local" name="return_date" required>
+
+    <button type="submit">ยืม</button>
+</form>
+
+
+        <a href="/users/equipmentList" class="back-link">กลับไปยังรายการอุปกรณ์</a>
+    </div>
+</body>
+</html>
+
+<%- include("../_footer"); -%>

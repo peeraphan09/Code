@@ -1,0 +1,25 @@
+<%- include("_header"); -%>
+<br>
+<br>
+<body>
+    <h1 align="center">Edit</h1>
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-md-12 d-flex justify-content-center">   
+            <form method="post" action='/peeraphan/edit/<%= data.id %>' class="w-50">
+                <div class="form-group">
+                    <label for="student09">Student:</label>
+                    <input type="text" class="form-control" id="student09" name="student09" value="<%= data.student09 %>">
+                </div>
+                <div class="form-group">
+                    <label for="telephone09">Telephone:</label>
+                    <input type="text" class="form-control" id="telephone09" name="telephone09" value="<%= data.telephone09 %>">
+                </div>
+                <br>
+                <button type="submit" class="btn btn-info">บันทึก</button>
+                <a href="/peeraphan/list" class="btn btn-danger">ย้อนกลับ</a>
+            </form>
+        </div>
+    </div>
+</div>
+<%- include("_footer"); -%>

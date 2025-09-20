@@ -1,0 +1,23 @@
+<%- include("../_header"); -%>
+<body class="body">
+    <div class="container mt-5">
+        <h3 class="text-center" style="color: black;">Site09</h3>
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-6">
+                <form action="/site/add" method="post">
+                    <div class="form-group">    
+                        <input type="text" name="Name" placeholder="Name" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="address" placeholder="address" class="form-control">
+                    </div> 
+                    <div class="form-group text-center">
+                        <button type="submit" class="btn btn-primary">Save site</button>
+                    </div>
+                </form>
+                <a href="/site" class="btn btn-secondary">Back</a>
+            </div>
+        </div>
+    </div>
+</body>
+<%- include("../_footer"); -%>

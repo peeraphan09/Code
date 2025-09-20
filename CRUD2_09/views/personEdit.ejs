@@ -1,0 +1,25 @@
+<%- include("_header2"); -%>
+<br>
+<br>
+<body>
+    <h1 align="center">Person Edit</h1>
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-md-12 d-flex justify-content-center">   
+            <form method="post" action="/editperson/<%= data.id %>" class="w-50">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" class="form-control" id="name" name="name" value="<%= data.name %>" required>
+                </div>
+                <div class="form-group">
+                    <label for="mobile">Detail:</label>
+                    <input type="text" class="form-control" id="mobile" name="mobile" value="<%= data.mobile %>" required>
+                </div>
+                <br>
+                <button type="submit" class="btn btn-info">บันทึก</button>
+                <a href="/person/list" class="btn btn-danger">Back</a>
+            </form>
+        </div>
+    </div>
+</div>
+<%- include("_footer"); -%>

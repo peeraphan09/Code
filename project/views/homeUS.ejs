@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>User Panel</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    body { min-height: 100vh; margin: 0; display: flex; flex-direction: row; font-family: 'Segoe UI', sans-serif; }
+    .sidebar { width: 220px; background-color: #343a40; color: white; min-height: 100vh; transition: width 0.3s; }
+    .sidebar a { display: block; color: white; padding: 12px 20px; text-decoration: none; transition: background 0.3s; }
+    .sidebar a:hover { background-color: #495057; }
+    .main-wrapper { flex: 1; display: flex; flex-direction: column; background: #f8f9fa; }
+    .topbar { background-color: #153f69; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    .topbar .user-info { color: #fff; display: flex; align-items: center; gap: 15px; }
+    .bell { position: relative; cursor: pointer; font-size: 1.5rem; color: #fff; }
+    .bell::after {
+      content: attr(data-count);
+      position: absolute;
+      top: -8px;
+      right: -10px;
+      background: red;
+      color: white;
+      font-size: 0.75rem;
+      width: 18px;
+      height: 18px;
+      text-align: center;
+      border-radius: 50%;
+      line-height: 18px;
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+    .content { flex: 1; padding: 25px; transition: all 0.3s; }
+    table tbody tr:hover { background-color: #e9f5ff; transition: background 0.3s; }
+    h2 { animation: fadeInDown 0.8s ease; }
+    @keyframes fadeInDown {
+      0% { opacity: 0; transform: translateY(-20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .card-bill { background: #fff; padding: 15px; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: transform 0.3s; }
+    .card-bill:hover { transform: translateY(-5px); }
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h4 class="text-center py-3">User Panel</h4>
+    <a href="/homeUS">หน้าแรก</a>
+    <a href="/user/contracts">สัญญาของฉัน</a>
+    <a href="/user/bills">บิลค้างชำระ</a>
+    <a href="/user/reports">แจ้งปัญหา/คำร้อง</a>
+    <a href="/logout">ออกจากระบบ</a>
+  </div>
+
+  <div class="main-wrapper">
+    <!-- Topbar -->
+    <div class="topbar">
+      <span class="text-white">สวัสดี, <%= user.full_name %></span>
+
+      <div class="user-info">
+        <!-- กระดิ่งแจ้งเตือน -->
+        <div class="position-relative">
+          <i class="fas fa-bell fa-lg text-white bell-icon" title="บิลค้างชำระ"></i>
+          <% if (pendingBillsCount > 0) { %>
+            <span class="badge rounded-pill bg-danger animate__animated animate__bounce badge-bell">
+              <%= pendingBillsCount %>
+            </span>
+          <% } %>
+        </div>
+
+        <a href="/logout" class="btn btn-outline-light btn-sm">ออกจากระบบ</a>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="content">
+      <h2>ยินดีต้อนรับ, <%= user.full_name %></h2>
+      <p>Role: <strong><%= user.role %></strong></p>
+
+      <% if (room) { %>
+        <div class="alert alert-info card-bill">
+          <h5>ข้อมูลห้องพักของคุณ</h5>
+          <ul class="mb-0">
+            <li><b>หมายเลขห้อง:</b> <%= room.room_number %></li>
+            <li><b>ประเภท:</b> <%= room.type %></li>
+            <li><b>ค่าเช่า:</b> <%= room.price %> บาท</li>
+          </ul>
+        </div>
+      <% } else { %>
+        <div class="alert alert-warning card-bill">คุณยังไม่ได้รับการจัดห้องพัก</div>
+      <% } %>
+
+      <% if (bills.length === 0) { %>
+        <p>คุณยังไม่มีบิลค่าน้ำ-ค่าไฟในตอนนี้</p>
+      <% } else { %>
+        <h4>บิลล่าสุด</h4>
+        <div class="row g-3">
+          <% bills.forEach(bill => { %>
+            <div class="col-md-4">
+              <div class="card-bill">
+                <h5>เดือน: <%= bill.month %></h5>
+                <p>ค่าน้ำ: <%= bill.water %> บาท</p>
+                <p>ค่าไฟ: <%= bill.electricity %> บาท</p>
+                <p><b>รวม: <%= bill.total %> บาท</b></p>
+                <a href="/uploads/bills/<%= bill.bill_image %>" target="_blank" class="btn btn-sm btn-secondary">ดูบิล</a>
+                <a href="/uploads/bills/<%= bill.bill_image %>" download class="btn btn-sm btn-info">ดาวน์โหลด</a>
+              </div>
+            </div>
+          <% }) %>
+        </div>
+      <% } %>
+    </div>
+  </div>
+</body>
+</html>

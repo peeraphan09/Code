@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <link rel="stylesheet" href="/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เข้าสู่ระบบ</title>
+    <style>
+        /* รูปแบบของหน้าเข้าสู่ระบบ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fc;
+            color: #333;
+        }
+
+        .form-container {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 25px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #007bff;
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .form-container p {
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .form-container p a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .form-container p a:hover {
+            text-decoration: underline;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .checkbox-container input {
+            width: auto;
+            margin-right: 5px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <h1>เข้าสู่ระบบ</h1>
+        <form action="/login" method="POST">
+            <label for="username">ชื่อผู้ใช้:</label>
+            <input type="text" name="username" required>
+
+            <label for="password">รหัสผ่าน:</label>
+            <input type="password" name="password" id="password" required>
+
+            <!-- Checkbox สำหรับแสดง/ซ่อนรหัสผ่าน -->
+            <div class="checkbox-container">
+                <input type="checkbox" id="show-password" onclick="togglePassword()">
+                <label for="show-password">แสดงรหัสผ่าน</label>
+            </div>
+
+            <button type="submit">เข้าสู่ระบบ</button>
+        </form>
+        <p>ยังไม่มีบัญชี? <a href="/register">ลงทะเบียน</a></p>
+        <p><a href="/forgot-password" class="forgot-password">ลืมรหัสผ่าน?</a></p>
+    </div>
+
+    <script>
+        function togglePassword() {
+            var passwordField = document.getElementById('password');
+            var showPasswordCheckbox = document.getElementById('show-password');
+
+            // หากช่องติ๊กถูกเลือก จะให้แสดงรหัสผ่าน
+            if (showPasswordCheckbox.checked) {
+                passwordField.type = 'text';
+            } else {
+                passwordField.type = 'password';
+            }
+        }
+    </script>
+
+</body>
+</html>

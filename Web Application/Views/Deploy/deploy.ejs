@@ -1,0 +1,42 @@
+<%- include("../_header"); -%>
+<body class="body">
+    <div class="row mt-5">
+        <div class="col-md-9 mx-auto">
+            <div class="container mt-3">
+                <h3 align="center" style="color: black;">Deploy21</h3>
+                <a href="/deploy/add" class="btn btn-primary"> เพิ่มข้อมูล </a>
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>NO</th>
+                            <th>Device</th>
+                            <th>Site</th>
+                            <th>install</th>
+                            <th>comment</th>
+                            <th>action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if (deploy21) { %>
+                            <% for(var i = 0; i < deploy21.length; i++) { %>
+                                <tr>
+                                    <td><%= (i+1) %></td>
+                                    <td> <a href="/dist" ><%= deploy21[i].Name %></a></td>
+                                    <td><%= deploy21[i].sname %></td>
+                                    <td><%= new Date(deploy21[i].install).toLocaleString('th-TH', { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' }) %></td>
+                                    <td><%= deploy21[i].comment %></td>
+                                    <td>
+                                        <a href="/deploy/update/<%= deploy21[i].did %>" class="btn btn-warning">แก้ไข</a>
+                                        <a href="/deploy/delete/<%= deploy21[i].did %>" class="btn btn-danger">ลบ</a>
+                                    </td>
+                                </tr>
+                            <% } %>
+                        <% } %>
+                    </tbody>
+                </table>
+                <a href="/" class="btn btn-primary">กลับ</a>
+            </div>
+        </div>
+    </div>
+</body>
+<%- include("../_footer"); -%>

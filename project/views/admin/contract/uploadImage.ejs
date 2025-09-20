@@ -1,0 +1,16 @@
+<%- include('../../_header') %>
+
+<div class="container mt-4">
+  <h3>อัพโหลดรูปภาพสัญญาเช่า</h3>
+
+  <form action="/admin/contracts/upload-image/<%= contractId %>" method="POST" enctype="multipart/form-data">
+    <div class="mb-3">
+      <label for="contract_image" class="form-label">เลือกไฟล์รูปภาพ</label>
+      <input type="file" class="form-control" name="contract_image" id="contract_image" required>
+    </div>
+    <button type="submit" class="btn btn-primary">อัพโหลด</button>
+    <a href="/admin/contracts" class="btn btn-secondary">ยกเลิก</a>
+  </form>
+</div>
+
+<%- include('../../_footer') %>

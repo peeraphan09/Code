@@ -1,0 +1,32 @@
+<%- include('../../_header') %>
+
+<div class="container mt-4">
+  <h2>เพิ่มห้องใหม่</h2>
+
+  <form action="/admin/rooms/add" method="POST" enctype="multipart/form-data">
+    <div class="mb-3">
+      <label class="form-label">หมายเลขห้อง</label>
+      <input type="text" name="room_number" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">ประเภท</label>
+      <input type="text" name="type" class="form-control" required>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">ค่าเช่า</label>
+      <input type="number" name="price" class="form-control" step="0.01" value="0">
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">อัพโหลดรูปห้อง</label>
+      <input type="file" name="image" class="form-control" accept="image/*">
+    </div>
+
+    <button type="submit" class="btn btn-success">เพิ่มห้อง</button>
+    <a href="/admin/rooms" class="btn btn-secondary">กลับ</a>
+  </form>
+</div>
+
+<%- include('../../_footer') %>

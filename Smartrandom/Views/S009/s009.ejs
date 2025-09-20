@@ -1,0 +1,39 @@
+<%- include("../_header"); -%>
+<body class="body">
+    <div class="row mt-5">
+        <div class="col-md-9 mx-auto">
+            <div class="container mt-3">
+                <h3 align="center" style="color: black;">s009</h3>
+                <a href="/s009/add" class="btn btn-primary"> เพิ่มข้อมูล </a>
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>NO</th>
+                            <th>Date</th>
+                            <th>Num</th>
+                            <th>VERSION</th>
+                            <th>action</th>
+                        </tr>
+                    </thead>
+                    <% if (s009) { %>
+                        <% for(var i = 0; i < s009.length; i++) { %>
+                            <tr>
+                                    <td><%= (i+1) %></td>
+                                    <td><%= s009[i].sj09 .toISOString().split('T')[0] %></td>
+                                    <td><%= s009[i].to09 %></td>
+                                    <td><%= s009[i].sk09 %></td>
+                                    <td>
+                                        <a href="/s009/update/<%= s009[i].si09 %>" class="btn btn-warning">แก้ไข</a>
+                                        <a href="/s009/delete/<%= s009[i].si09 %>" class="btn btn-danger">ลบ</a>
+                                    </td>
+                                </tr>
+                            <% } %>
+                        <% } %>
+                    </tbody>
+                </table>
+                <a href="/" class="btn btn-primary">กลับ</a>
+            </div>
+        </div>
+    </div>
+</body>
+<%- include("../_footer"); -%>

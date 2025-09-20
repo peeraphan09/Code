@@ -1,0 +1,114 @@
+<!-- views/admin/editEquipment.ejs
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แก้ไขอุปกรณ์</title>
+</head>
+<body>
+    <h1>แก้ไขอุปกรณ์</h1>
+    <form action="/admin/editEquipment/<%= equipment.id %>" method="post">
+        <input type="hidden" name="id" value="<%= equipment.id %>">
+        <label for="equipment_code">รหัสอุปกรณ์</label>
+        <input type="text" id="equipment_code" name="equipment_code" value="<%= equipment.equipment_code %>" required><br>
+
+        <label for="name">ชื่อ</label>
+        <input type="text" id="name" name="name" value="<%= equipment.name %>" required><br>
+
+        <label for="category">หมวดหมู่</label>
+        <input type="text" id="category" name="category" value="<%= equipment.category %>" required><br>
+
+        <label for="quantity">จำนวน</label>
+        <input type="number" id="quantity" name="quantity" value="<%= equipment.quantity %>" required><br>
+
+        <label for="status">สถานะ</label>
+        <select id="status" name="status">
+            <option value="available" <% if(equipment.status == 'available') { %>selected<% } %>>พร้อมใช้งาน</option>
+            <option value="unavailable" <% if(equipment.status == 'unavailable') { %>selected<% } %>>ไม่พร้อมใช้งาน</option>
+        </select><br>
+
+        <button type="submit">บันทึกการแก้ไข</button>
+    </form>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>แก้ไขอุปกรณ์</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            padding: 20px;
+            font-family: 'Arial', sans-serif;
+        }
+        img.preview {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        form {
+            max-width: 500px;
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+    <h2 class="text-center mb-4">✏️ แก้ไขอุปกรณ์</h2>
+    <form action="/admin/editEquipment/<%= equipment.id %>" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="id" value="<%= equipment.id %>">
+
+        <div class="mb-3">
+            <label for="equipment_code" class="form-label">รหัสอุปกรณ์</label>
+            <input type="text" class="form-control" id="equipment_code" name="equipment_code" value="<%= equipment.equipment_code %>" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="name" class="form-label">ชื่อ</label>
+            <input type="text" class="form-control" id="name" name="name" value="<%= equipment.name %>" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="category" class="form-label">หมวดหมู่</label>
+            <input type="text" class="form-control" id="category" name="category" value="<%= equipment.category %>" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="quantity" class="form-label">จำนวน</label>
+            <input type="number" class="form-control" id="quantity" name="quantity" value="<%= equipment.quantity %>" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="status" class="form-label">สถานะ</label>
+            <select class="form-select" id="status" name="status">
+                <option value="available" <% if (equipment.status === 'available') { %>selected<% } %>>พร้อมใช้งาน</option>
+                <option value="unavailable" <% if (equipment.status === 'unavailable') { %>selected<% } %>>ไม่พร้อมใช้งาน</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">รูปปัจจุบัน</label><br>
+            <% if (equipment.image) { %>
+                <img src="/uploads/<%= equipment.image %>" alt="รูปอุปกรณ์" class="preview">
+            <% } else { %>
+                <p class="text-muted">ไม่มีรูปภาพ</p>
+            <% } %>
+        </div>
+
+        <div class="mb-3">
+            <label for="image" class="form-label">เลือกรูปใหม่ (ถ้าต้องการเปลี่ยน)</label>
+            <input type="file" class="form-control" id="image" name="image">
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">💾 บันทึกการแก้ไข</button>
+        </div>
+    </form>
+</body>
+</html>

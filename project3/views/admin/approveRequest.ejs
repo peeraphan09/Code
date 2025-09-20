@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>อนุมัติคำขอยืมอุปกรณ์</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>รายการคำขอยืมอุปกรณ์ที่รออนุมัติ</h1>
+        
+        <% if (borrowRequests.length === 0) { %>
+            <p>ไม่มีคำขอยืมที่รออนุมัติ</p>
+        <% } else { %>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>ชื่อผู้ใช้</th>
+                        <th>ชื่ออุปกรณ์</th>
+                        <th>จำนวน</th>
+                        <th>สถานะ</th>
+                        <th>การกระทำ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% borrowRequests.forEach(request => { %>
+                        <tr>
+                            <td><%= request.id %></td>
+                            <td><%= request.user_name %></td>
+                            <td><%= request.equipment_name %></td>
+                            <td><%= request.quantity %></td>
+                            <td><%= request.status %></td>
+                            <td>
+                                <% if (request.status === 'Pending') { %>
+                                    <form action="/admin/approveRequest/<%= request.id %>" method="post" style="display:inline;">
+                                        <button type="submit" name="action" value="approve">อนุมัติ</button>
+                                    </form>
+                                    <form action="/admin/rejectRequest/<%= request.id %>" method="post" style="display:inline;">
+                                        <button type="submit" name="action" value="reject">ปฏิเสธ</button>
+                                    </form>
+                                <% } else { %>
+                                    <p>สถานะ: <%= request.status %></p>
+                                <% } %>
+                            </td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        <% } %>
+
+        <br>
+        <a href="/admin/dashboard">กลับไปที่หน้าแดชบอร์ด</a>
+    </div>
+</body>
+</html>

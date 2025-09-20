@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://bootswatch.com/5/sandstone/bootstrap.css">
+    <title> Craftandtest </title>
+</head>
+<body>
+    <% if (session.success == false) { %>
+        <% for (var i = 0; i < session.errors.errors.length; i++) { %>
+            <div class="alert alert-danger" role="alert">
+                <%= session.errors.errors[i]["msg"] %>
+            </div>
+        <% } session.success = null; } %>
+    
+    <% if (session.success == true) { %>
+        <div class="alert alert-success" role="alert">
+            <%= session.topic %>
+        </div>
+    <% } session.success = null; %>
+    
+</body>
+</html>

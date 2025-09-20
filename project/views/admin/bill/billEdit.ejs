@@ -1,0 +1,22 @@
+<%- include('../../_header') %>
+
+<div class="container mt-4">
+  <h3>แก้ไขบิลค่าน้ำ/ค่าไฟ</h3>
+
+  <form action="/admin/bills/edit/<%= bill.id %>" method="POST">
+    <div class="mb-3">
+      <label>ค่าน้ำ</label>
+      <input type="number" step="0.01" name="water_amount" class="form-control" value="<%= bill.water_amount %>" required>
+    </div>
+
+    <div class="mb-3">
+      <label>ค่าไฟ</label>
+      <input type="number" step="0.01" name="electricity_amount" class="form-control" value="<%= bill.electricity_amount %>" required>
+    </div>
+
+    <button type="submit" class="btn btn-primary">บันทึก</button>
+    <a href="/admin/bills" class="btn btn-secondary">ยกเลิก</a>
+  </form>
+</div>
+
+<%- include('../../_footer') %>

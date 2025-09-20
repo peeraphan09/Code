@@ -1,0 +1,38 @@
+<%- include("../_header"); -%>
+<body class="body">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <br>
+                <h3 class="text-center">Edit</h3>
+                <form action="/o009/update/<%= data1&& data1[0] ? data1[0].oe09 : '' %>" method="post" class="w-50">
+                    <div class="form-group">
+                        <label for="xy09"> VERSION </label>
+                        <input type="text" id="xy09" name="xy09" placeholder="VERSION" value="<%= data1 && data1[0] ? data1[0].xy09 : '' %>" class="form-control">
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="of09"> NAME </label>
+                        <input type="text" id="of09" name="of09" placeholder="NAME" value="<%= data1 && data1[0] ? data1[0].of09 : '' %>" class="form-control">
+                    </div>
+                    <br>
+                    <div class="form-group">
+                        <label for="og09">Date</label>
+                        <select class="form-control" name="og09">
+                            <option value="">กรุณาเลือก</option>
+                            <% if (data2) { %>
+                                <% for (var i = 0; i < data2.length; i++) { %>
+                                    <option value="<%= data2[i].qk09 %>" <% if(data1 && data1[0] && data2[i].qk09==data1[0].og09){ %>selected<% } %> ><%= data2[i].qm09.toISOString().split('T')[0]  %></option>
+                                <% } %>
+                            <% } %>
+                        </select>
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <a href="/o009" class="btn btn-danger">Back</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+<%- include("../_footer"); -%>

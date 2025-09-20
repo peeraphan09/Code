@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ลบอุปกรณ์</title>
+    <style>
+        /* Style as before */
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>ยืนยันการลบอุปกรณ์</h1>
+
+        <p>คุณต้องการลบอุปกรณ์นี้หรือไม่?</p>
+
+        <form action="/admin/deleteEquipment" method="POST">
+            <input type="hidden" name="id" value="<%= equipment ? equipment.id : '' %>">
+            <div>
+                <button type="submit" style="background-color: red;">ลบอุปกรณ์</button>
+            </div>
+        </form>
+        
+        <a href="/admin/equipmentList">ยกเลิก</a>
+    </div>
+
+</body>
+</html>

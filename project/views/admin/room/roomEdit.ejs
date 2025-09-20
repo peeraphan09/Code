@@ -1,0 +1,60 @@
+<%- include('../../_header') %>
+
+<div class="container mt-4">
+  <h3>แก้ไขห้อง</h3>
+
+  <form action="/admin/rooms/edit/<%= room.id %>" method="POST">
+    <div class="mb-3">
+      <label class="form-label">หมายเลขห้อง</label>
+      <input type="text" name="room_number" class="form-control" value="<%= room.room_number %>" required>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">ประเภท</label>
+      <input type="text" name="type" class="form-control" value="<%= room.type %>" required>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">สถานะ</label>
+      <select name="status" id="statusSelect" class="form-control" required>
+        <option value="ว่าง" <%= room.status === 'ว่าง' ? 'selected' : '' %>>ว่าง</option>
+        <option value="ไม่ว่าง" <%= room.status === 'ไม่ว่าง' ? 'selected' : '' %>>ไม่ว่าง</option>
+        <option value="ซ่อมบำรุง" <%= room.status === 'ซ่อมบำรุง' ? 'selected' : '' %>>ซ่อมบำรุง</option>
+      </select>
+    </div>
+
+    <div class="mb-3" id="tenantSelectWrapper" style="display: none;">
+      <label class="form-label">เลือกผู้เช่า</label>
+      <select name="user_id" class="form-control">
+        <option value="">-- เลือกผู้เช่า --</option>
+        <% users.forEach(u => { %>
+          <option value="<%= u.id %>" <%= room.user_id === u.id ? 'selected' : '' %>>
+            <%= u.full_name %>
+          </option>
+        <% }) %>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">ราคา</label>
+      <input type="number" name="price" step="0.01" class="form-control" value="<%= room.price %>">
+    </div>
+
+    <button type="submit" class="btn btn-primary">บันทึกการแก้ไข</button>
+    <a href="/admin/rooms" class="btn btn-secondary">กลับไป</a>
+  </form>
+</div>
+
+<script>
+  const statusSelect = document.getElementById('statusSelect');
+  const tenantWrapper = document.getElementById('tenantSelectWrapper');
+
+  function toggleTenantSelect() {
+    tenantWrapper.style.display = statusSelect.value === 'ไม่ว่าง' ? 'block' : 'none';
+  }
+
+  statusSelect.addEventListener('change', toggleTenantSelect);
+  toggleTenantSelect();
+</script>
+
+<%- include('../../_footer') %>

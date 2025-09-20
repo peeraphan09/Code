@@ -1,0 +1,231 @@
+<%- include("../_header2"); -%>
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <title>รายการคำขอยืม</title>
+
+    <!-- DataTable CDN -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        #sidebar {
+            position: fixed;
+            top: 0;
+            left: -250px;
+            width: 250px;
+            height: 100%;
+            background: #343a40;
+            color: #fff;
+            transition: left 0.3s ease;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        #overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 900;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-top: 20px;
+        }
+
+        .container {
+            padding: 20px;
+            z-index: 1;
+            position: relative;
+        }
+
+        table.dataTable {
+            width: 100% !important;
+            margin: 0 auto;
+            background-color: #fff;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            text-align: center;
+            padding: 10px;
+        }
+
+        .equipment-cell {
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .equipment-cell img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 6px;
+        }
+
+        /* ปุ่มทั่วไป */
+        .btn {
+            padding: 6px 12px;
+            border: none;
+            color: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        /* ยกเลิก (danger) */
+        .btn-danger {
+            background-color: #e74c3c; /* สีแดงสดใส */
+        }
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+
+        /* รับของแล้ว (success) */
+        .btn-success {
+            background-color: #27ae60; /* สีเขียวสบายตา */
+        }
+        .btn-success:hover {
+            background-color: #1e8449;
+        }
+
+        /* คืนอุปกรณ์ (warning) */
+        .btn-warning {
+            background-color: #f39c12; /* สีส้มสดใส */
+            color: #fff;
+        }
+        .btn-warning:hover {
+            background-color: #d68910;
+        }
+
+        /* ตกลง (secondary) */
+        .btn-secondary {
+            background-color: #7f8c8d; /* สีเทาอมเขียวเทา */
+        }
+        .btn-secondary:hover {
+            background-color: #606b6e;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div id="sidebar">
+    <h2>เมนู</h2>
+</div>
+<div id="overlay" onclick="closeSidebar()"></div>
+
+<!-- Content -->
+<div class="container">
+    <h1>รายการคำขอยืม</h1>
+
+    <table id="borrowTable" class="display">
+        <thead>
+            <tr>
+                <th>ชื่อ-นามสกุล</th>
+                <th>อุปกรณ์</th>
+                <th>จำนวนที่ยืม</th>
+                <th>วันและเวลาที่ยืม</th>
+                <th>วันที่จะคืน</th>
+                <th>สถานะ</th>
+                <th>จัดการ</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% if (orders && orders.length > 0) { %>
+                <% orders.forEach(order => { %>
+                    <tr>
+                        <td><%= order.first_name %> <%= order.last_name %></td>
+                        <td class="equipment-cell">
+                            <div>
+                                <div class="equipment-code"><%= order.equipment_code %></div>
+                                <div class="equipment-name"><%= order.equipment_name %></div>
+                            </div>
+                        </td>
+                        <td><%= order.quantity %></td>
+                        <td><%= order.date_borrowed_th || '-' %></td>
+                        <td><%= order.return_date_th || 'ยังไม่กำหนด' %></td>
+                        <td><%= order.status %></td>
+                        <td>
+                            <% if (order.status === 'pending') { %>
+                                <form action="/users/cancelRequest/<%= order.id %>" method="POST">
+                                    <button type="submit" class="btn btn-danger">ยกเลิก</button>
+                                </form>
+                            <% } else if (order.status === 'approved' && order.pickup_status !== 'picked_up') { %>
+                                <form action="/user/confirmPickup/<%= order.id %>" method="POST">
+                                    <button type="submit" class="btn btn-success">รับของแล้ว</button>
+                                </form>
+                            <% } else if (order.pickup_status === 'picked_up' && order.return_status !== 'returned') { %>
+                                <form action="/user/confirmReturn/<%= order.id %>" method="POST">
+                                    <button type="submit" class="btn btn-warning">คืนอุปกรณ์</button>
+                                </form>
+                            <% } else if (order.return_status === 'returned') { %>
+                                <span>คืนอุปกรณ์แล้ว</span>
+                            <% } else if (order.status === 'rejected' && !order.user_acknowledged) { %>
+                                <form action="/user/acknowledgeRejection/<%= order.id %>" method="POST">
+                                    <button type="submit" class="btn btn-secondary">ตกลง</button>
+                                </form>
+                            <% } else { %>
+                                <span>-</span>
+                            <% } %>
+                        </td>
+                    </tr>
+                <% }) %>
+            <% } else { %>
+                <tr>
+                    <td colspan="7" class="no-data">ไม่มีรายการคำขอยืม</td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+</div>
+
+<!-- Sidebar Script -->
+<script>
+    function openSidebar() {
+        document.getElementById("sidebar").style.left = "0";
+        document.getElementById("overlay").style.display = "block";
+    }
+
+    function closeSidebar() {
+        document.getElementById("sidebar").style.left = "-250px";
+        document.getElementById("overlay").style.display = "none";
+    }
+
+    // Initialize DataTable
+    $(document).ready(function() {
+        $('#borrowTable').DataTable({
+            language: {
+                search: "ค้นหา:",
+                lengthMenu: "แสดง _MENU_ รายการ",
+                info: "แสดง _START_ ถึง _END_ จาก _TOTAL_ รายการ",
+                paginate: {
+                    previous: "ก่อนหน้า",
+                    next: "ถัดไป"
+                },
+                zeroRecords: "ไม่พบข้อมูล"
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

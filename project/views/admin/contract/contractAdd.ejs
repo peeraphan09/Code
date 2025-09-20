@@ -1,0 +1,59 @@
+<%- include('../../_header') %>
+
+<div class="container mt-4">
+  <h3>เพิ่มสัญญาเช่า</h3>
+
+  <form action="/admin/contracts/add" method="POST" class="mb-5">
+    <!-- เลือกห้อง -->
+      <div class="mb-3">
+  <label>ห้อง</label>
+  <select name="room_id" id="roomSelect" class="form-control" required>
+    <% rooms.forEach(r => { %>
+      <option value="<%= r.id %>" 
+              data-user-id="<%= r.user_id %>" 
+              data-user-name="<%= r.user_full_name %>">
+        <%= r.room_number %> (฿<%= r.price %>)
+      </option>
+    <% }) %>
+  </select>
+</div>
+
+<!-- แสดงผู้ใช้ (read-only) -->
+<div class="mb-3">
+  <label>ผู้ใช้</label>
+  <input type="text" id="userName" class="form-control" readonly>
+  <input type="hidden" name="user_id" id="userId"> <!-- ส่งค่า user_id ไปกับฟอร์ม -->
+</div>
+
+
+
+    <!-- วันสมัครสมาชิก -->
+    <div class="mb-3">
+      <label>วันสมัครสมาชิก</label>
+      <input type="datetime-local" name="created_at" class="form-control" 
+             value="<%= new Date().toISOString().slice(0,16) %>" required>
+    </div>
+
+    <button type="submit" class="btn btn-success">บันทึก</button>
+    <a href="/admin/contracts" class="btn btn-secondary">ยกเลิก</a>
+  </form>
+</div>
+
+<script>
+  const roomSelect = document.getElementById('roomSelect');
+  const userName = document.getElementById('userName');
+  const userId = document.getElementById('userId');
+
+  function updateUserInfo() {
+    const selected = roomSelect.options[roomSelect.selectedIndex];
+    userName.value = selected.dataset.userName || '-';
+    userId.value = selected.dataset.userId || '';
+  }
+
+  updateUserInfo(); // ค่าเริ่มต้น
+  roomSelect.addEventListener('change', updateUserInfo);
+</script>
+
+<%- include('../../_footer') %>
+
+

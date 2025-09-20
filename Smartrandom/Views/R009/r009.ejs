@@ -1,0 +1,41 @@
+<%- include("../_header"); -%>
+<body class="body">
+    <div class="row mt-5">
+        <div class="col-md-9 mx-auto">
+            <div class="container mt-3">
+                <h3 align="center" style="color: black;">R009</h3>
+                <a href="/r009/add" class="btn btn-primary"> เพิ่มข้อมูล </a>
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>NO</th>
+                            <th>NAME</th>
+                            <th>DATE</th>
+                            <th>Number</th>
+                            <th>Vsion</th>
+                            <th>action</th>
+                        </tr>
+                    </thead>
+                    <% if (r009) { %>
+                        <% for(var i = 0; i < r009.length; i++) { %>
+                            <tr>
+                                    <td><%= (i+1) %></td>
+                                    <td><%= r009[i].rg09 %></td>
+                                    <td><%= r009[i].tn09.toISOString().split('T')[0]%></td>
+                                    <td><%= r009[i].to09 %></td>
+                                    <td><%= r009[i].sk09 %></td>
+                                    <td>
+                                        <a href="/r009/update/<%= r009[i].rf09 %>" class="btn btn-warning">แก้ไข</a>
+                                        <a href="/r009/delete/<%= r009[i].rf09 %>" class="btn btn-danger">ลบ</a>
+                                    </td>
+                                </tr>
+                            <% } %>
+                        <% } %>
+                    </tbody>
+                </table>
+                <a href="/" class="btn btn-primary">กลับ</a>
+            </div>
+        </div>
+    </div>
+</body>
+<%- include("../_footer"); -%>

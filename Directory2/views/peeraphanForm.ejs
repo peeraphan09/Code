@@ -1,0 +1,25 @@
+<%- include("_header"); -%>
+<br>
+<br>
+<h1 align="center">เพิ่มข้อมูล</h1>
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-md-12 d-flex justify-content-center">
+            <form action="/peeraphan/add" method="post" class="w-50">
+                <div class="form-group">
+                    <label for="student09">Student</label>
+                    <input type="text" name="student09" placeholder="Student" class="form-control">
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="telephone09">Telephone</label>
+                    <input type="text" name="telephone09" placeholder="Telephone" class="form-control">
+                </div>
+                <br>
+                <button type="submit" class="btn btn-primary">บันทึก</button>
+                <a href="/peeraphan/list" class="btn btn-primary">ย้อนกลับ</a>
+            </form>
+        </div>
+    </div>
+</div>
+<%- include("_footer"); -%>

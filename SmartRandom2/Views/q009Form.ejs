@@ -1,0 +1,28 @@
+<%- include("_header"); -%>
+
+    <body class="body">
+        <div class="container mt-5">
+            <h3 class="text-center" style="color: black;">q009</h3>
+            <div class="row justify-content-center mt-4">
+                <div class="col-md-6">
+                    <form action="/q009/add" method="post">
+                    </div>
+                    <div class="form-group">
+                        <label for="qm09">DATE</label>
+                        <input type="date" name="qm09" id="qm09" placeholder="qm09" class="form-control">
+                    </div>
+                        <div class="form-group">
+                            <label for="qn09">NUMBER</label>
+                            <input type="text" id="qn09" name="qn09" placeholder="NUMBER" class="form-control">
+                        </div>
+                </div>
+                <div class="form-group text-center">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+                </form>
+                <a href="/q009" class="btn btn-secondary">Back</a>
+            </div>
+        </div>
+        </div>
+    </body>
+    <%- include("_footer"); -%>

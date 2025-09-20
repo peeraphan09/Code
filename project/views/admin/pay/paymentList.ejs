@@ -1,0 +1,61 @@
+<%- include('../../_header') %>
+
+<div class="container mt-4">
+  <h3>รายการบิลค่าน้ำ-ค่าไฟ</h3>
+  <a href="/admin/payments/add" class="btn btn-primary mb-3">เพิ่มบิล</a>
+
+  <table class="table table-bordered text-center">
+    <thead>
+      <tr>
+        <th>เลขห้อง</th>
+        <th>ผู้เช่า</th>
+        <th>เดือน</th>
+        <th>ค่าเช่า</th>
+        <th>ค่าน้ำ</th>
+        <th>ค่าไฟ</th>
+        <th>รวม</th>
+        <th>สถานะ</th>
+        <th>จัดการ</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% bills.forEach(b => { %>
+        <tr>
+          <td><%= b.room_number %></td>
+          <td><%= b.full_name %></td>
+          <td><%= b.bill_month %></td>
+          <td><%= b.rent_amount.toFixed(2) %></td>
+          <td><%= b.water_amount.toFixed(2) %></td>
+          <td><%= (b.electricity_units * 7).toFixed(2) %> (<%= b.electricity_units %> หน่วย)</td>
+          <td><%= b.total_amount.toFixed(2) %></td>
+          <td><%= b.status %></td>
+          <td>
+            <a href="/admin/payments/edit/<%= b.bill_id %>" class="btn btn-sm btn-warning">แก้ไข</a>
+            <a href="/admin/payments/delete/<%= b.bill_id %>" class="btn btn-sm btn-danger" onclick="return confirm('ลบบิลนี้?')">ลบ</a>
+
+          <!-- ปุ่มดูรูป -->
+            <!-- ปุ่มดูรูป -->
+            <a href="/admin/payments/image/view/<%= b.bill_id %>" class="btn btn-sm btn-secondary">
+              <i class="fas fa-image"></i>
+            </a>
+
+            <!-- ปุ่มดาวน์โหลด -->
+            <a href="/admin/payments/image/download/<%= b.bill_id %>" class="btn btn-sm btn-info">
+              <i class="fas fa-download"></i>
+            </a>
+
+
+            <!-- ปุ่มส่งให้ผู้เช่า -->
+            <form action="/admin/payments/send/<%= b.bill_id %>" method="POST" style="display:inline;">
+              <button type="submit" class="btn btn-sm btn-primary" title="ส่งให้ผู้เช่า">
+                <i class="fas fa-paper-plane"></i>
+              </button>
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<%- include('../../_footer') %>

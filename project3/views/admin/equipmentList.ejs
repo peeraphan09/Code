@@ -1,0 +1,197 @@
+<%- include ('../_header') -%> 
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>รายการอุปกรณ์</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" />
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .container {
+            margin-top: 30px;
+        }
+
+        .table th,
+        .table td {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .btn {
+            font-size: 14px;
+        }
+
+        .img-thumbnail {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        /* Sidebar styles */
+        #sidebar {
+            position: fixed;   /* fixed ติดหน้าจอ */
+            top: 0;
+            left: -250px;      /* ซ่อนไว้ฝั่งซ้ายก่อน */
+            width: 250px;
+            height: 100vh;     /* เต็มหน้าจอแนวตั้ง */
+            background-color: #343a40;
+            color: white;
+            transition: left 0.3s ease;
+            z-index: 1050;     /* สูงกว่า overlay */
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        #sidebar.active {
+            left: 0; /* เลื่อนเข้ามาแสดง */
+        }
+
+        /* Overlay ครอบหน้าจอเมื่อ sidebar เปิด */
+        #overlay {
+            position: fixed;
+            display: none;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1040;  /* ต่ำกว่า sidebar แต่สูงกว่าเนื้อหา */
+        }
+
+        /* ปุ่มเปิด sidebar */
+        #openSidebarBtn {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 1100; /* สูงสุด */
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ปุ่มเปิด sidebar -->
+
+    <!-- Sidebar -->
+    <div id="sidebar">
+        <h3>เมนู</h3>
+        <ul class="list-unstyled">
+            <li><a href="/" class="text-white">หน้าหลัก</a></li>
+            <li><a href="/admin" class="text-white">Admin Dashboard</a></li>
+            <li><a href="/user/profile" class="text-white">โปรไฟล์</a></li>
+        </ul>
+    </div>
+
+    <!-- Overlay -->
+    <div id="overlay" onclick="closeSidebar()"></div>
+
+    <div class="container">
+        <h1 class="text-center mb-4">📋 รายการอุปกรณ์</h1>
+        <table id="equipmentTable" class="table table-bordered table-hover table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>รูปภาพ</th>
+                    <th>รหัสอุปกรณ์</th>
+                    <th>ชื่อ</th>
+                    <th>หมวดหมู่</th>
+                    <th>จำนวน</th>
+                    <th>สถานะ</th>
+                    <% if (user && user.role === 'admin') { %>
+                        <th>แก้ไข</th>
+                        <th>ลบ</th>
+                    <% } else { %>
+                        <th>ยืม</th>
+                    <% } %>
+                </tr>
+            </thead>
+            <tbody>
+                <% equipment.forEach(function(equip) { %>
+                    <tr>
+                        <td>
+                            <% if (equip.image) { %>
+                                <img src="<%= equip.image %>" alt="อุปกรณ์" class="img-thumbnail" />
+                            <% } else { %>
+                                <span class="text-muted">ไม่มีรูป</span>
+                            <% } %>
+                        </td>
+                        <td><%= equip.equipment_code %></td>
+                        <td><%= equip.name %></td>
+                        <td><%= equip.category %></td>
+                        <td><%= equip.quantity %></td>
+                        <td>
+                            <% if (equip.quantity > 0) { %>
+                                <span class="badge bg-success">✅ พร้อมใช้งาน</span>
+                            <% } else { %>
+                                <span class="badge bg-danger">❌ ไม่พร้อม</span>
+                            <% } %>
+                        </td>
+                        <% if (user && user.role === 'admin') { %>
+                            <td>
+                                <a href="/admin/editEquipment/<%= equip.id %>" class="btn btn-warning btn-sm">✏️ แก้ไข</a>
+                            </td>
+                            <td>
+                                <a href="/admin/deleteEquipment/<%= equip.id %>" onclick="return confirm('คุณแน่ใจไหม?')" class="btn btn-danger btn-sm">🗑️ ลบ</a>
+                            </td>
+                        <% } else { %>
+                            <td>
+                                <a href="/user/borrowEquipment/<%= equip.id %>" class="btn btn-primary btn-sm">📥 ยืม</a>
+                            </td>
+                        <% } %>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+
+        <% if (user && user.role === 'admin') { %>
+            <div class="text-center">
+                <a href="/admin/addEquipment" class="btn btn-success">➕ เพิ่มอุปกรณ์ใหม่</a>
+            </div>
+        <% } %>
+    </div>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+    <!-- DataTables Bootstrap 5 integration JS -->
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#equipmentTable').DataTable({
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/th.json'
+                },
+                pageLength: 10,
+                lengthMenu: [5, 10, 25, 50],
+                order: [[1, 'asc']]
+            });
+        });
+
+        function openSidebar() {
+            document.getElementById("sidebar").classList.add("active");
+            document.getElementById("overlay").style.display = "block";
+        }
+
+        function closeSidebar() {
+            document.getElementById("sidebar").classList.remove("active");
+            document.getElementById("overlay").style.display = "none";
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
+<%- include ('../_footer') -%>

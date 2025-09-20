@@ -1,0 +1,57 @@
+<%- include("_header2"); -%>
+<br>
+<br>
+<br>
+<h1 align="center">PR Edit</h1>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12 d-flex justify-content-center">
+            <form action="/pr/update/<%= data4[0].id %>" method="post" class="w-50">
+                <div class="form-group">
+                    <label for="mid">สื่อ (Media)</label>&nbsp;&nbsp;&nbsp;<a href="/media/list">เพิ่ม</a>
+                    <select class="form-control" id="mid" name="mid">
+                        <option value="">กรุณาเลือก</option>
+                        <% if (data1) { %>
+                            <% for (var i = 0; i < data1.length; i++) { %>
+                                <option value="<%= data1[i].id %>" <% if(data1[i].id==data4[0].mid){ %>selected<% } %> ><%= data1[i].name %></option>
+                            <% } %>
+                        <% } %>
+                    </select>
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="aid">โฆษณา (Ads)</label>&nbsp;&nbsp;&nbsp;<a href="/ads/list">เพิ่ม</a>
+                    <select class="form-control" id="aid" name="aid">
+                        <option value="">กรุณาเลือก</option>
+                        <% if (data2) { %>
+                            <% for (var i = 0; i < data2.length; i++) { %>
+                                <option value="<%= data2[i].id %>" <% if(data2[i].id==data4[0].aid){ %>selected<% } %> ><%= data2[i].name %></option>
+                            <% } %>
+                        <% } %>
+                    </select>
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="pid">บุคคล (Person)</label>&nbsp;&nbsp;&nbsp;<a href="/person/list">เพิ่ม</a>
+                    <select class="form-control" id="pid" name="pid">
+                        <option value="">กรุณาเลือก</option>
+                        <% if (data3) { %>
+                            <% for (var i = 0; i < data3.length; i++) { %>
+                                <option value="<%= data3[i].id %>" <% if(data3[i].id==data4[0].pid){ %>selected<% } %> ><%= data3[i].name %></option>
+                            <% } %>
+                        <% } %>
+                    </select>
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="start">วันที่เริ่ม (Start Date)</label>
+                    <input type="date" id="start" name="start" value="<%= data4[0].start %>" class="form-control">
+                </div>
+                <br>
+                <button type="submit" class="btn btn-primary">Update</button>
+                <a href="/pr" class="btn btn-danger">Back</a>
+            </form>
+        </div>
+    </div>
+</div>
+<%- include("_footer"); -%>

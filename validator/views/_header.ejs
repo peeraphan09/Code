@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/bootstrap.min.css">
+    <title>Validator</title>
+</head>
+<body>
+    <div class="container mt-2">
+        <div class="row">
+            <div class="col-md-7">
+                <% if(session.success==false){%>
+                <% for(var i=0;i<session.errors.errors.length;i++){%>
+                <div class="alert alert-danger" role="alert">
+                    <%=session.errors.errors[i]["msg"]%>
+                </div>
+                <%}session.success=null;}%>
+                <% if(session.success==true){%>
+                    <div class="alert alert-success" role="alert">
+                        <%=session.topic%>
+                    </div>
+                    <%}session.success=null;%>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

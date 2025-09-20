@@ -1,0 +1,31 @@
+<h1 align="center">อัปเดตข้อมูล</h1>
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-md-12 d-flex justify-content-center">
+            <form action="/device/edit/<%= data.id %>" method="post" class="w-50">
+                <div class="form-group">
+                    <label for="Name">Name</label>
+                    <input type="text" name="Name" value="<%= data.Name %>" class="form-control">
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="mac">mac</label>
+                    <input type="text" name="mac" value="<%= data.mac %>" class="form-control">
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="model">model</label>
+                    <input type="text" name="model" value="<%= data.model %>" class="form-control">
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="version">version</label>
+                    <input type="text" name="version" value="<%= data.version %>" class="form-control">
+                </div>
+                <br>
+                <a href="/device" class="btn btn-danger">ย้อนกลับ</a> <!-- แก้จาก /Device เป็น /device -->
+                <button type="submit" class="btn btn-primary">บันทึก</button>
+            </form>
+        </div>
+    </div>
+</div>

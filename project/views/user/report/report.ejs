@@ -1,0 +1,43 @@
+<%- include('../../_header1') %>
+<div class="container mt-4">
+  <h3>เรื่องที่คุณแจ้ง</h3>
+
+  <!-- ปุ่มเพิ่มคำร้อง -->
+  <a href="/user/reports/add" class="btn btn-primary mb-3">
+    <i class="fas fa-plus"></i> เพิ่มคำร้อง
+  </a>
+
+  <% if(reports.length === 0) { %>
+    <div class="alert alert-warning">คุณยังไม่ได้แจ้งเรื่อง</div>
+  <% } else { %>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>เรื่อง</th>
+          <th>หมายเหตุ</th>
+          <th>สถานะ</th>
+          <th>วันที่</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% reports.forEach(r => { %>
+          <tr>
+            <td><%= r.subject %></td>
+            <td><%= r.note %></td>
+            <td>
+              <% if(r.status === 'ยังไม่รับแจ้ง') { %>
+                <span class="badge bg-warning"><%= r.status %></span>
+              <% } else if(r.status === 'กำลังดำเนินการ') { %>
+                <span class="badge bg-primary"><%= r.status %></span>
+              <% } else { %>
+                <span class="badge bg-success"><%= r.status %></span>
+              <% } %>
+            </td>
+            <td><%= new Date(r.created_at).toLocaleString() %></td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+</div>
+<%- include('../../_footer1') %>

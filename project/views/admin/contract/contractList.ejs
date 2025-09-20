@@ -1,0 +1,110 @@
+<%- include('../../_header') %>
+
+<div class="container mt-4">
+  <h3>รายการสัญญาเช่า</h3>
+  <a href="/admin/contracts/add" class="btn btn-primary mb-3">
+    <i class="fas fa-plus"></i> เพิ่มสัญญา
+  </a>
+
+  <!-- Dashboard Cards -->
+  <div class="row mb-3">
+  <div class="col-md-4">
+    <div class="card text-white bg-info shadow-sm">
+      <div class="card-body text-center">
+        <h5 class="card-title">สัญญาทั้งหมด</h5>
+        <h2><%= totalContracts %></h2>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card text-white bg-success shadow-sm">
+      <div class="card-body text-center">
+        <h5 class="card-title">สัญญาที่ดำเนินการเสร็จสิ้น</h5>
+        <h2><%= successContracts %></h2>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card text-white bg-warning shadow-sm">
+      <div class="card-body text-center">
+        <h5 class="card-title">สัญญาที่กำลังดำเนินการ</h5>
+        <h2><%= pendingContracts %></h2>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!-- Table -->
+  <table class="table table-bordered table-hover text-center">
+    <thead class="table-light">
+      <tr>
+        <th>ห้อง</th>
+        <th>สถานะการทำสัญญา</th>
+        <th>วันสมัครสมาชิก</th>
+        <th>วันที่แก้ไขล่าสุด</th>
+        <th>ส่งออก PDF</th>
+        <th>จัดการ</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% contracts.forEach(c => { %>
+        <tr>
+          <td><%= c.room_number %></td>
+          <td>
+            <% if (c.status === "เสร็จสิ้น") { %>
+                <span class="badge bg-success"><%= c.status_th %></span>
+            <% } else if (c.status === "บันทึกสัญญาเรียบร้อยแล้ว") { %>
+                <span class="badge bg-success"><%= c.status_th %></span>
+            <% } else if (c.status === "ยังไม่เพิ่มสัญญาเช่า") { %>
+                <span class="badge bg-secondary"><%= c.status_th %></span>
+            <% } else { %>
+                <span class="badge bg-warning text-dark"><%= c.status_th %></span>
+            <% } %>
+            </td>
+
+          <td><%= c.created_at ? c.created_at.toISOString().slice(0,19).replace('T',' ') : '' %></td>
+          <td><%= c.updated_at ? c.updated_at.toISOString().slice(0,19).replace('T',' ') : '' %></td>
+          
+          <!-- ปุ่ม PDF -->
+          <td>
+            <a href="/admin/contracts/pdf/view/<%= c.id %>" 
+               class="btn btn-sm btn-secondary" title="ดู PDF">
+              <i class="fas fa-eye"></i>
+            </a>
+            <a href="/admin/contracts/pdf/download/<%= c.id %>" 
+               class="btn btn-sm btn-info" title="ดาวน์โหลด PDF">
+              <i class="fas fa-download"></i>
+            </a>
+            <a href="/admin/contracts/pdf/print/<%= c.id %>" 
+               class="btn btn-sm btn-primary" title="พิมพ์ PDF" target="_blank">
+              <i class="fas fa-print"></i>
+            </a>
+          </td>
+
+          <!-- ปุ่มจัดการ -->
+          <td>
+            <% if (!c.contract_image) { %>
+              <!-- ยังไม่มีรูป -->
+              <a href="/admin/contracts/upload-image/<%= c.id %>" 
+                 class="btn btn-sm btn-success" title="เพิ่มรูปภาพสัญญาเช่า">
+                <i class="fas fa-upload"></i>
+              </a>
+            <% } else { %>
+              <!-- มีรูปแล้ว -->
+              <a href="/admin/contracts/edit-image/<%= c.id %>" 
+                 class="btn btn-sm btn-warning" title="แก้ไขรูปภาพ">
+                <i class="fas fa-edit"></i>
+              </a>
+              <a href="/uploads/contracts/<%= c.contract_image %>" target="_blank"
+                 class="btn btn-sm btn-secondary" title="ดูรูปภาพ">
+                <i class="fas fa-image"></i>
+              </a>
+            <% } %>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+
+<%- include('../../_footer') %>

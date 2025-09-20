@@ -1,0 +1,40 @@
+<%- include("_header"); -%>
+<br>
+<h3 align="center"> PEERAPHAN </h3>
+<div class="container">
+    <div class="row mt-5">  
+        <div class="col-md-9">
+            <div>
+                <a href="/peeraphan/new" class="btn btn-primary">Add</a>
+                <br>
+                <br>
+            </div>
+        </div>
+        <div class="col-md-15">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>NO</th>
+                        <th>Student</th>
+                        <th>Telephone</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                    <% if (data) { %>
+                        <% for (var i = 0; i < data.length; i++) { %>
+                            <tr>
+                                <td><%= (i + 1) %></td>
+                                <td><%= data[i].student09 %></td>
+                                <td>0<%= data[i].telephone09 %></td>
+                                <td>
+                                    <a href="/peeraphan/edit/<%= data[i].id %>" class="btn btn-info style=width: 80px;">Edit</a>
+                                    <a href="/peeraphan/delete/<%= data[i].id %>" class="btn btn-danger">Delete</a> 
+                                </td>
+                            </tr>
+                        <% } %>
+                    <% } %> 
+            </table>
+        </div>
+    </div>
+</div
+<%- include("_footer"); -%>

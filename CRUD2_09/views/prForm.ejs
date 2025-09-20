@@ -1,0 +1,52 @@
+<%- include("_header2"); -%>
+<br>
+<br>
+<br>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-5">
+            <!-- <%=JSON.stringify(data2) %> -->
+            <form action="/pr/add" method="post">
+                <div class="form-group">
+                    <label> สื่อ (Media) </label>&nbsp;&nbsp;&nbsp;<a href="/media/list">เพิ่ม</a>
+                    <select class="form-control" name="mid">
+                        <option> กรุณาเลือก </option>
+                        <% if(data1){ %>
+                            <% for(var i=0;i<data1.length;i++){ %>
+                                <option value="<%= data1[i].id %>"> <%= data1[i].name %> </option>
+                            <% } %>
+                        <% } %>        
+                    </select>
+                </div>
+                <br>
+                <label> โฆษณา (Ads) </label>&nbsp;&nbsp;&nbsp;<a href="/ads/list">เพิ่ม</a>
+                <select class="form-control" name="aid">
+                    <option> กรุณาเลือก </option>
+                    <% if(data2){ %>
+                        <% for(var i=0;i<data2.length;i++){ %>
+                            <option value="<%= data2[i].id %>"> <%= data2[i].name %> </option>
+                        <% } %>
+                    <% } %>        
+                </select>
+                <br>
+                <label> บุคคล (Persoon) </label>&nbsp;&nbsp;&nbsp;<a href="/person/list">เพิ่ม</a>
+                <select class="form-control" name="pid">
+                    <option> กรุณาเลือก </option>
+                    <% if(data3){ %>
+                        <% for(var i=0;i<data3.length;i++){ %>
+                            <option value="<%= data3[i].id %>"> <%= data3[i].name %> </option>
+                        <% } %>
+                    <% } %>        
+                </select>
+                <br>
+                <div class="form-group">
+                    <input type="date" name="start" placeholder="Start Date" class="form-control">
+                </div>
+                <br>
+                <button type="submit" class="btn btn-primary">Add PR</button>
+                <a href="/pr" class="btn btn-danger">Back</a>
+            </form>
+        </div>
+    </div>
+</div>
+<%- include("_footer"); -%>

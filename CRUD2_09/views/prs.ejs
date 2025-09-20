@@ -1,0 +1,47 @@
+<%- include("_header"); -%>
+<br>
+<br>
+<br>
+<h3 align="center"> การประชาสัมพันธ์ </h3>
+<div class="container">
+    <div class="row mt-5">  
+        <div class="col-md-9">
+            <div>
+                <a href="/pr/new" class="btn btn-primary">Add</a>
+                <br>
+                <br>
+            </div>
+        </div>
+        <div class="col-md-15">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>NO</th>
+                        <th>Media</th>
+                        <th>Ads</th>
+                        <th>Person</th>
+                        <th>Start Date</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                    <% if (data) { %>
+                        <% for (var i = 0; i < data.length; i++) { %>
+                            <tr>
+                                <td><%= (i + 1) %></td>
+                                <td><%= data[i].media_name %></td>
+                                <td><%= data[i].ads_name %></td>
+                                <td><%= data[i].person_name %></td>
+                                <td><%= data[i].start %></td>
+                                <td>
+                                    <a href="/pr/update/<%= data[i].id %>" class="btn btn-info style=width: 80px;">Edit</a>
+                                    <a href="/pr/delete/<%= data[i].id %>" class="btn btn-danger">Delete</a> 
+                                </td>
+                            </tr>
+                        <% } %>
+                    <% } %> 
+            </table>
+        </div>
+    </div>
+</div>
+<!-- <%=JSON.stringify(data) %> -->
+<%- include("_footer"); -%>

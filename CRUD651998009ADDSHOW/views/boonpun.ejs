@@ -1,0 +1,47 @@
+<%- include("_header"); -%>
+<br>
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-md-7">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Milo</th>
+                        <th>Redmi</th>
+                        <th>Msi</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if(data){%>
+                        <%for(var i=0;i<data.length;i++){%>
+                            <tr>
+                                <td> <%= (i+1) %> </td>
+                                <td> <%= data[i].milo %></td>
+                                <td> <%= data[i].redmi %></td>
+                                <td> <%= data[i].msi %></td>
+                            </tr>
+                       <% } %>
+                   <% } %>
+                </tbody>    
+            </table>
+        </div>
+        <div class="col-md-5">
+            <form action="/add" method="post">
+                <div class="form-group">
+                    <input type="text" name="milo" placeholder="Milo" class="form-control">
+                </div>
+                <div class="form-group">
+                    <input type="text" name="redmi" placeholder="Redmi" class="form-control">
+                </div>
+                <div class="form-group">
+                    <input type="text" name="msi" placeholder="Msi" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<%- include("_footer"); -%>

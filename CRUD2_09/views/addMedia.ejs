@@ -1,0 +1,26 @@
+<%- include("_header2"); -%>
+<br>
+<br>
+<h1 align="center">Media add</h1>
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-md-12 d-flex justify-content-center"> 
+            <form action="/media/add" method="post" class="w-50">
+                <div class="form-group">
+                    <label for="name">ชื่อ</label>
+                    <input type="text" name="name" placeholder="ชื่อ" class="form-control">
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="price">ราคา</label>
+                    <input type="text" name="price" placeholder="ราคา" class="form-control">
+                </div>
+                <br>
+                <button type="submit" class="btn btn-primary">บันทึก</button>
+                <a href="/media/list" class="btn btn-primary">ย้อนกลับ</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+<%- include("_footer"); -%>

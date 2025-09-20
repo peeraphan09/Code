@@ -1,0 +1,39 @@
+<%- include("../_header"); -%>
+<body class="body">
+    <div class="row mt-5">
+        <div class="col-md-9 mx-auto">
+            <div class="container mt-3">
+                <h3 align="center" style="color: black;">peeraphan09</h3>
+                <a href="/peeraphan/add" class="btn btn-primary"> เพิ่มข้อมูล </a>
+                <table class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>NO</th>
+                            <th>Name</th>
+                            <th>Digit</th>
+                            <th>Mirot</th>
+                            <th>action</th>
+                        </tr>
+                    </thead>
+                    <% if (peeraphan09) { %>
+                        <% for(var i = 0; i < peeraphan09.length; i++) { %>
+                            <tr>
+                                    <td><%= (i+1) %></td>
+                                    <td><%= peeraphan09[i].boonpun %></td>
+                                    <td><%= peeraphan09[i].digit.toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric' }) %></td> %></td>
+                                    <td><%= peeraphan09[i].mirot09 %></td>
+                                    <td>
+                                        <a href="/peeraphan/update/<%= peeraphan09[i].peeid %>" class="btn btn-warning">แก้ไข</a>
+                                        <a href="/peeraphan/delete/<%= peeraphan09[i].peeid %>" class="btn btn-danger">ลบ</a>
+                                    </td>
+                                </tr>
+                            <% } %>
+                        <% } %>
+                    </tbody>
+                </table>
+                <a href="/" class="btn btn-primary">กลับ</a>
+            </div>
+        </div>
+    </div>
+</body>
+<%- include("../_footer"); -%>

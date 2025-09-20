@@ -1,0 +1,37 @@
+<%- include("_header"); -%>
+<br>
+<br>
+<body>
+    <h1 align="center">Edit</h1>
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-md-12 d-flex justify-content-center">   
+            <form method="post" action="/Ucraftandtest/edit/<%= data.id %>" class="w-50">
+
+
+                <label for="wihtdraw">เบิก</label>
+                <select class="form-control" name="wihtdraw">
+                <input type="text" class="form-control" id="wihtdraw" Name="wihtdraw" value="<%= data.withdraw %>" required>
+                <br>
+                <div class="form-group">
+                    <label for="status">สถานะ:</label>
+                    <input type="text" class="form-control" id="status" Name="status" value="<%= data.status %>" required>
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="contactperson">contactperson:</label>
+                    <input type="text" class="form-control" id="contactperson" Name="contactperson" value="<%= data.contactperson %>" required>
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="completiondate">วันที่เสร็จ:</label>
+                    <input type="date" class="form-control" id="completiondate" Name="completiondate" value="<%= data.completiondate %>" required>
+                </div>
+                <br>
+                <button type="submit" class="btn btn-info">Save</button>
+                <a href="/Ucraftandtest/list" class="btn btn-danger">Back</a>
+            </form>
+        </div>
+    </div>
+</div>
+<%- include("_footer"); -%>

@@ -1,0 +1,112 @@
+<%- include("_header2"); -%>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home US</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .dashboard-container {
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: auto;
+            text-align: center;
+        }
+
+        .dashboard-container h1 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .dashboard-container p {
+            font-size: 1.1rem;
+            color: #555;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .card {
+            background-color: #fff;
+            padding: 30px 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            border-radius: 16px;
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h2 {
+            font-size: 2.2rem;
+            color: #28a745;
+            margin: 0;
+        }
+
+        .card p {
+            font-size: 1rem;
+            color: #444;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <h1>แดชบอร์ดผู้ใช้</h1>
+        <p>สวัสดี <strong><%= user.fullname %></strong>! ยินดีต้อนรับเข้าสู่ระบบจัดการอุปกรณ์</p>
+
+        <div class="cards">
+            <div class="card">
+                <h2><%= myRequestsCount || 0 %></h2>
+                <p>รายการยืมของฉัน</p>
+            </div>
+            <div class="card">
+                <h2><%= myPendingCount || 0 %></h2>
+                <p>รออนุมัติ</p>
+            </div>
+            <div class="card">
+                <h2><%= myApprovedCount || 0 %></h2>
+                <p>อนุมัติแล้ว</p>
+            </div>
+            <div class="card">
+                <h2><%= myRejectedCount || 0 %></h2>
+                <p>ถูกปฏิเสธ</p>
+            </div>
+            <div class="card">
+                <h2><%= myReturnedCount || 0 %></h2>
+                <p>ส่งคืนแล้ว</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openSidebar() {
+            document.getElementById("sidebar").style.left = "0";
+            document.getElementById("overlay").style.display = "block";
+        }
+
+        function closeSidebar() {
+            document.getElementById("sidebar").style.left = "-250px";
+            document.getElementById("overlay").style.display = "none";
+        }
+    </script>
+
+</body>
+</html>
+
+<%- include("_footer"); -%>

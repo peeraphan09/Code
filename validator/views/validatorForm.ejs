@@ -1,0 +1,11 @@
+<%- include("_header"); -%>
+<h1>New Validator</h1>
+<form action="/validator/add" method="post">
+    NAME <input type="text" name="name" class="form-control">
+    EMAIL <input type="text" name="email" class="form-control">
+
+    <a href="/validator/" class="btn btn-primary"> Back </a>
+    <button type="submit" class="btn btn-warning">Add Validator</button>
+</form>
+
+<%- include("_footer"); -%>

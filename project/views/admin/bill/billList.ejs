@@ -1,0 +1,29 @@
+<%- include('../../_header') %>
+<h3>รายการค่าน้ำค่าไฟทั้งหมด</h3>
+<a href="/admin/bills/add">เพิ่มค่าน้ำค่าไฟ</a>
+<table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+        <tr>
+            <th>ค่าน้ำ</th>
+            <th>ค่าไฟ</th>
+            <th>จัดการ</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% if (bills.length === 0) { %>
+            <tr><td colspan="6">ยังไม่มีข้อมูล</td></tr>
+        <% } else { %>
+            <% bills.forEach(b => { %>
+                <tr>
+                    <td><%= b.water_amount %></td>
+                    <td><%= b.electricity_amount %></td>
+                    <td>
+                        <a href="/admin/bills/edit/<%= b.id %>">แก้ไข</a> |
+                        <a href="/admin/bills/delete/<%= b.id %>" onclick="return confirm('ลบข้อมูลใช่หรือไม่?')">ลบ</a>
+                    </td>
+                </tr>
+            <% }) %>
+        <% } %>
+    </tbody>
+</table>
+<%- include('../../_footer') %>

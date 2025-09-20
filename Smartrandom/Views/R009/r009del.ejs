@@ -1,0 +1,23 @@
+<%- include("../_header"); -%>
+<body class="body">
+    <br>
+    <br>
+    <body>
+        <h1 align="center" style="margin-top: 230px;">ยืนยันการลบ</h1>
+    <div class="container">
+        <div class="row mt-2">
+            <div class="col-md-12 d-flex justify-content-center">
+                <form method="post" action="<%= data && data.r009 ? '/area/deleteConfirm/' + data.r009.rf09 : '' %>"  class="w-120 mx-auto">       
+                    <% if (data && data.r009) { %>
+                        <a align="center" href="/r009" class="btn btn-danger mx-auto" style="margin-top: 20px;">Back</a>
+
+                    <% } else { %>
+                        <a align="center" href="/r009" class="btn btn-danger mx-auto" style="margin-top: 20px;">Back</a>
+                    <% } %>
+                    <button align="center" type="submit" class="btn btn-info mx-auto" style="margin-top: 20px;">Confirm</button> 
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+<%- include("../_footer"); -%>

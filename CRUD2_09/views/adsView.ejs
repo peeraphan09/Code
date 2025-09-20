@@ -1,0 +1,39 @@
+<%- include("_header2"); -%>
+<br>
+<br>
+<h1 align="center">Ads</h1>
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-md-15 ">
+            <table class="table table-bordered table-hover ">
+                <thead>
+                    <tr>
+                        <th>ลำดับที่</th>
+                        <th>ชื่อ</th>
+                        <th>รายละเอียด</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if (data && data.length > 0) { %>
+                        <% for (var i = 0; i < data.length; i++) { %>
+                            <tr>
+                                <td><%= (i + 1) %></td>
+                                <td><%= data[i].name %></td>
+                                <td><%= data[i].detail %></td>
+                                <td>
+                                    <a href="/editads/<%= data[i].id %>" class="btn btn-info style=width: 80px;">Edit</a>
+                                    <a href="/deleteads/<%= data[i].id %>" class="btn btn-danger">Delete</a> 
+                                </td>
+                            </tr>
+                        <% } %>
+                    <% } %> 
+                </tbody>
+            </table>
+            <a href="/ads/add" class="btn btn-primary">Add</a>
+            <a href="/pr" class="btn btn-danger">ย้อนกลับ</a>
+        </div>
+    </div>
+</div>
+
+<%- include("_footer"); -%>

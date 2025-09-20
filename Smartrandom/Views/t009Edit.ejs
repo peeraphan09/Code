@@ -1,0 +1,30 @@
+<%- include("_header"); -%>
+<body class="body">
+    <br>
+    <br>
+    <br>
+    <% if (t009) { %>
+        <div class="container mt-5">
+        <h3 align="center"> t009 </h3>
+        <div class="row justify-content-center">
+            <div class='col -md-3'>
+                <form action="/t009/update/<%= t009.tm09 %>" method="post">
+                    <div class='form-group'>
+                        <label form="tn09">tn09</label>
+                        <input type='date' name='tn09' placeholder='tn09' value="<%= t009.tn09.toISOString().split('T')[0] %>" class='form-control'>
+                    </div>
+                    <br>
+                    <div class='form-group'>
+                        <label form="to09">to09</label>
+                        <input type='text' name='to09' placeholder='to09' value="<%= t009.to09 %>" class='form-control'>
+                    </div>
+                    <br>
+                    <button type='submit' class='btn btn-primary'>แก้ไข</button> 
+                    <a href="/t009" class="btn btn-primary">กลับ</a>
+                </form>
+            </div>
+        </div>
+    </div>
+    <% } %>
+</body>
+<%- include("_footer"); -%>

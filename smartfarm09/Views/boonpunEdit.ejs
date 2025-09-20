@@ -1,0 +1,30 @@
+<%- include("_header"); -%>
+<body class="body">
+    <br>
+    <br>
+    <br>
+    <% if (boonpun09) { %>
+        <div class="container mt-5">
+            <h3 align="center"> boonpun09 </h3>
+        <div class="row justify-content-center">
+            <div class='col -md-3'>
+                <form action="/boonpun/update/<%= boonpun09.id %>" method="post">
+                    <div class='form-group'>
+                        <label form="name09">digit</label>
+                        <input type='text' name='name09' placeholder='name09' value="<%= boonpun09.name09 %>" class='form-control'>
+                    </div>
+                    <br>
+                    <div class='form-group'>
+                        <label form="digit09">digit</label>
+                        <input type='date' name='digit09' placeholder='digit09' value="<%= boonpun09.digit09.toISOString().split('T')[0] %>" class='form-control'>
+                    </div>
+                    <br>
+                    <button type='submit' class='btn btn-primary'>แก้ไข</button> 
+                    <a href="/boonpun" class="btn btn-primary">กลับ</a>
+                </form>
+            </div>
+        </div>
+    </div>
+    <% } %>
+</body>
+<%- include("_footer"); -%>

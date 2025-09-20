@@ -1,0 +1,30 @@
+<h1 align="center">เพิ่มข้อมูลอุปกรณ์</h1>
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-md-12 d-flex justify-content-center">
+            <form action="/device/add" method="post" class="w-50">
+                <div class="form-group">
+                    <label for="Devicename">name</label>
+                    <input type="text" name="name" class="form-control">
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="address">mac</label>
+                    <input type="text" name="mac" class="form-control">
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="model">model</label>
+                    <input type="text" name="model" class="form-control">
+                </div>
+                <br>
+                <div class="form-group">
+                    <label for="version">version</label>
+                    <input type="text" name="version" class="form-control">
+                </div>
+                <a href="/device" class="btn btn-danger">ย้อนกลับ</a>
+                <button type="submit" class="btn btn-primary">บันทึก</button>
+            </form>
+        </div>
+    </div>
+</div>

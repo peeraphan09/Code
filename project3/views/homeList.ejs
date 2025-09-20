@@ -1,0 +1,134 @@
+<%- include("_header"); -%>
+
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f5f7fa;
+        margin: 0;
+        padding: 0;
+    }
+
+    .dashboard-container {
+        padding: 40px 20px;
+        max-width: 1200px;
+        margin: auto;
+        text-align: center;
+    }
+
+    .dashboard-container h1 {
+        font-size: 2.5rem;
+        color: #333;
+        margin-bottom: 10px;
+    }
+
+    .dashboard-container p {
+        font-size: 1.1rem;
+        color: #666;
+    }
+
+    .cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 25px;
+        margin-top: 40px;
+    }
+
+    .card {
+        background-color: #fff;
+        padding: 30px 20px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        border-radius: 16px;
+        transition: transform 0.2s ease-in-out;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+    }
+
+    .card h2 {
+        font-size: 2.5rem;
+        color: #007BFF;
+        margin: 0;
+    }
+
+    .card p {
+        font-size: 1.1rem;
+        color: #444;
+        margin-top: 10px;
+    }
+
+    .alert {
+        background-color: #ffc107;
+        padding: 12px 20px;
+        margin-top: 15px;
+        border-radius: 8px;
+        font-weight: bold;
+        color: #333;
+        text-align: center;
+    }
+
+    .badge-alert {
+        background-color: red;
+        color: white;
+        border-radius: 12px;
+        padding: 4px 8px;
+        font-size: 0.8rem;
+        margin-left: 6px;
+    }
+</style>
+
+<div class="dashboard-container">
+    <h1>แดชบอร์ดผู้ดูแลระบบ</h1>
+    <p>เลือกเมนูจากด้านข้าง หรือดูข้อมูลภาพรวมด้านล่าง</p>
+
+    <div class="cards">
+        <div class="card">
+            <h2><%= userCount || 0 %></h2>
+            <p>ผู้ใช้งานทั้งหมด</p>
+        </div>
+        <div class="card">
+            <h2><%= equipmentCount %></h2>
+            <p>รายการอุปกรณ์ทั้งหมด</p>
+        </div>
+        <div class="card">
+            <h2><%= pendingCount %></h2>
+            <p>
+                คำขอรอดำเนินการ
+                <% if (pendingCount > 0) { %>
+                    <span class="badge-alert">แจ้งเตือน</span>
+                <% } %>
+            </p>
+            <% if (pendingCount > 0) { %>
+                <div class="alert">
+                    มีคำขอรอดำเนินการจำนวน <%= pendingCount %> รายการ กรุณาตรวจสอบ
+                </div>
+            <% } %>
+        </div>
+        <div class="card">
+            <h2><%= borrowedCount %></h2>
+            <p>อุปกรณ์ที่กำลังถูกยืม</p>
+        </div>
+        <div class="card">
+            <h2><%= approvedCount %></h2>
+            <p>คำขอที่อนุมัติแล้ว</p>
+        </div>
+        <div class="card">
+            <h2><%= rejectedCount %></h2>
+            <p>คำขอที่ปฏิเสธ</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openSidebar() {
+        document.getElementById("sidebar").style.left = "0";
+        document.getElementById("overlay").style.display = "block";
+    }
+
+    function closeSidebar() {
+        document.getElementById("sidebar").style.left = "-250px";
+        document.getElementById("overlay").style.display = "none";
+    }
+</script>
+
+<%- include("_footer"); -%>

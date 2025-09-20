@@ -1,0 +1,42 @@
+<%- include("_header"); -%>
+<body class="body">
+    <div class="row mt-5">
+        <div class="col-md-9 mx-auto">
+            <div class="container mt-3">
+                <h3 align="center" style="color: black;">Device09</h3>
+                <a href="/device/add" class="btn btn-primary"> เพิ่มข้อมูล </a>
+                <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>NO</th>
+                        <th>Name</th>
+                        <th>Mac</th>
+                        <th>Model</th>
+                        <th>Version</th>
+                        <th>action</th>
+                    </tr>
+                </thead>
+                <% if (device09) { %>
+                    <% for(var i=0; i<device09.length; i++) { %>
+                        <tr>
+                            <td><%= (i+1) %></td>
+                            <td><%= device09[i].Name %></td>
+                            <td><%= device09[i].mac %></td>
+                            <td><%= device09[i].Model %></td>
+                            <td><%= device09[i].version %></td>
+                            <td>
+                                <a href="/device/update/<%= device09[i].did %>" class="btn btn-warning">แก้ไข</a>
+                                <a href="/device/delete/<%= device09[i].did %>" class="btn btn-danger">ลบ</a>
+                            </td>
+                        </tr>
+                    <% } %>
+                <% } %>
+            </table>
+            <a href="/" class="btn btn-primary">กลับ</a>
+        </div>
+    </div>
+</div>
+</body>
+
+<%- include("_footer"); -%>
+

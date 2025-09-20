@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>ใบแจ้งชำระเงิน</title>
+<style>
+  body { font-family: Arial, sans-serif; margin: 20px; }
+  h2 { text-align: center; margin-bottom: 20px; }
+  table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+  table, th, td { border: 1px solid #000; }
+  th, td { padding: 8px; text-align: center; }
+  .total { font-weight: bold; }
+</style>
+</head>
+<body>
+  <h2>ใบแจ้งชำระเงิน</h2>
+  <p><strong>เลขห้อง:</strong> <%= bill.room_number %></p>
+  <p><strong>ผู้เช่า:</strong> <%= bill.full_name %></p>
+  <p><strong>เดือน:</strong> <%= bill.bill_month %></p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ค่าเช่า</th>
+        <th>ค่าน้ำ</th>
+        <th>ค่าไฟ</th>
+        <th>รวม</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><%= bill.rent_amount.toFixed(2) %></td>
+        <td><%= bill.water_amount.toFixed(2) %></td>
+        <td><%= (bill.electricity_units * 7).toFixed(2) %></td>
+        <td class="total"><%= bill.total_amount.toFixed(2) %></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p><strong>สถานะ:</strong> <%= bill.status %></p>
+</body>
+</html>

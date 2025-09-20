@@ -1,0 +1,56 @@
+<%- include('../../_header') %>
+<div class="container mt-4">
+  <h3>เรื่องที่ผู้ใช้งานแจ้ง</h3>
+  <% if(reports.length === 0) { %>
+    <div class="alert alert-warning">ไม่มีเรื่องแจ้งเข้ามา</div>
+  <% } else { %>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+            <th>ผู้แจ้ง</th>
+            <th>ห้อง</th>
+            <th>เรื่อง</th>
+            <th>หมายเหตุ</th>
+            <th>สถานะ</th>
+            <th>จัดการ</th>
+        </tr>
+        </thead>
+
+      <tbody>
+        <% reports.forEach(r => { %>
+          <tr>
+            <td><%= r.room_number || '-' %></td>
+            <td><%= r.full_name %></td>
+            <td><%= r.subject %></td>
+            <td><%= r.note %></td>
+            <td>
+              <% if(r.status === 'ยังไม่รับแจ้ง') { %>
+                <span class="badge bg-warning"><%= r.status %></span>
+              <% } else if(r.status === 'กำลังดำเนินการ') { %>
+                <span class="badge bg-primary"><%= r.status %></span>
+              <% } else { %>
+                <span class="badge bg-success"><%= r.status %></span>
+              <% } %>
+            </td>
+            <td>
+              <% if(r.status === 'ยังไม่รับแจ้ง') { %>
+                <form action="/admin/reports/<%= r.id %>/status" method="POST">
+                  <input type="hidden" name="status" value="กำลังดำเนินการ">
+                  <button class="btn btn-sm btn-primary">รับเรื่อง</button>
+                </form>
+              <% } else if(r.status === 'กำลังดำเนินการ') { %>
+                <form action="/admin/reports/<%= r.id %>/status" method="POST">
+                  <input type="hidden" name="status" value="เสร็จสิ้น">
+                  <button class="btn btn-sm btn-success">เสร็จสิ้น</button>
+                </form>
+              <% } else { %>
+                <span class="text-success">เสร็จสิ้น</span>
+              <% } %>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+</div>
+<%- include('../../_footer') %>

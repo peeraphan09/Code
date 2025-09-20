@@ -1,0 +1,48 @@
+<%- include("../_header"); -%>
+<body class="body">
+    <div class="container mt-5">
+        <h3 class="text-center" style="color: black;">Add Deployment</h3>
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-6">
+                <form action="/deploy/add" method="post">
+                    <div class="form-group">
+                        <label for="device">Device</label>
+                        <select class="form-control" name="did21"> <!-- แก้ชื่อตรงนี้ -->
+                            <option value="">กรุณาเลือก</option>
+                            <% if (device21) { %>
+                                <% for (var i = 0; i < device21.length; i++) { %>
+                                    <option value="<%= device21[i].did %>"><%= device21[i].Name %></option>
+                                <% } %>
+                            <% } %>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="site">Site</label>
+                        <select class="form-control" name="sid21"> <!-- แก้ชื่อตรงนี้ -->
+                            <option value="">กรุณาเลือก</option>
+                            <% if (site21) { %>
+                                <% for (var i = 0; i < site21.length; i++) { %>
+                                    <option value="<%= site21[i].sid %>"><%= site21[i].Name %></option>
+                                <% } %>
+                            <% } %>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="install">Edit Installation Date</label>
+                        <input type="date" name="install" id="install" placeholder="YYYY-MM-DD"  class="form-control">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="comment">Comment</label>
+                        <input type="text" name="comment" placeholder="Comment" class="form-control">
+                    </div> 
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Save Deployment</button>
+                    </div>
+                </form>
+                <a href="/deploy" class="btn btn-secondary">Back</a>
+            </div>
+        </div>
+    </div>
+</body>
+<%- include("../_footer"); -%>

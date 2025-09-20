@@ -1,0 +1,130 @@
+<%- include('../../_header') %>
+
+<!-- Animate.css -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+<style>
+  /* เอฟเฟกต์ hover */
+  .room-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 12px;
+  }
+  .room-card:hover {
+    transform: translateY(-6px) scale(1.03);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.25), 0 0 15px rgba(0, 200, 255, 0.6);
+  }
+</style>
+
+<div class="container mt-4">
+
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h3 class="mb-0">ผังห้องพัก</h3>
+    <a href="/admin/rooms/add" class="btn btn-primary">+ เพิ่มห้อง</a>
+  </div>
+
+  <div class="row">
+    <% rooms.forEach((room, i) => { %>
+      <div class="col-md-2 mb-3 animate__animated animate__fadeInUp" 
+          data-delay="<%= (i * 0.1).toFixed(1) %>s">
+        <div class="card text-center room-card 
+          <% if (room.status === 'ว่าง') { %> border-success <% } %>
+          <% if (room.status === 'ไม่ว่าง') { %> border-danger <% } %>
+          <% if (room.status === 'ซ่อมบำรุง') { %> border-warning <% } %>"
+          role="button" style="cursor:pointer"
+          data-bs-toggle="modal"
+          data-bs-target="#roomModal"
+          data-id="<%= room.id %>"
+          data-number="<%= room.room_number %>"
+          data-type="<%= room.type %>"
+          data-price="<%= room.price %>"
+          data-status="<%= room.status %>"
+          data-tenant="<%= room.tenant_name || '' %>"
+          data-image="<%= room.image || '' %>">
+
+          <div class="card-body p-2">
+            <h5 class="card-title"><%= room.room_number %></h5>
+            <p>
+              <% if (room.status === 'ว่าง') { %>
+                <span class="badge bg-success">ว่าง</span>
+              <% } else if (room.status === 'ไม่ว่าง') { %>
+                <span class="badge bg-danger">ไม่ว่าง</span>
+              <% } else { %>
+                <span class="badge bg-warning text-dark">ซ่อมบำรุง</span>
+              <% } %>
+            </p>
+            <p class="mb-0" style="font-size: 0.9em;">
+              <% if (room.tenant_name) { %>
+                ผู้เช่า: <%= room.tenant_name %>
+              <% } else { %>
+                <span class="text-muted">ยังไม่มีผู้เช่า</span>
+              <% } %>
+            </p>
+          </div>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="roomModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content animate__animated">
+      <div class="modal-header">
+        <h5 class="modal-title">ข้อมูลห้องพัก</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <img id="roomImage" src="" class="img-fluid rounded mb-3" alt="รูปห้อง">
+        <p><strong>เลขห้อง:</strong> <span id="roomNumber"></span></p>
+        <p><strong>ประเภท:</strong> <span id="roomType"></span></p>
+        <p><strong>ค่าเช่า:</strong> <span id="roomPrice"></span> บาท</p>
+        <p><strong>สถานะ:</strong> <span id="roomStatus"></span></p>
+        <p><strong>ผู้เช่า:</strong> <span id="roomTenant"></span></p>
+      </div>
+      <div class="modal-footer">
+        <a id="editRoomBtn" href="#" class="btn btn-warning">แก้ไข</a>
+        <button class="btn btn-secondary" data-bs-dismiss="modal">ปิด</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const roomModal = document.getElementById('roomModal');
+
+  // animation modal
+  roomModal.addEventListener('show.bs.modal', () => {
+    const modalDialog = roomModal.querySelector('.modal-content');
+    modalDialog.classList.remove('animate__fadeOutDown');
+    modalDialog.classList.add('animate__zoomIn');
+  });
+  roomModal.addEventListener('hidden.bs.modal', () => {
+    const modalDialog = roomModal.querySelector('.modal-content');
+    modalDialog.classList.remove('animate__zoomIn');
+    modalDialog.classList.add('animate__fadeOutDown');
+  });
+
+  // load room data
+  roomModal.addEventListener('show.bs.modal', event => {
+    const card = event.relatedTarget;
+    if (!card) return;
+
+    const id = card.dataset.id;
+    document.getElementById('roomNumber').textContent = card.dataset.number;
+    document.getElementById('roomType').textContent = card.dataset.type;
+    document.getElementById('roomPrice').textContent = card.dataset.price;
+    document.getElementById('roomStatus').textContent = card.dataset.status;
+    document.getElementById('roomTenant').textContent = card.dataset.tenant || 'ยังไม่มีผู้เช่า';
+
+    const image = card.dataset.image;
+    document.getElementById('roomImage').src = image || '/images/no-room.png';
+
+    document.getElementById('editRoomBtn').href = `/admin/rooms/edit/${id}`;
+    document.querySelectorAll('[data-delay]').forEach(el => {
+  el.style.animationDelay = el.dataset.delay;
+  });
+  });
+</script>
+
+<%- include('../../_footer') %>

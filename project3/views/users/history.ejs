@@ -1,0 +1,129 @@
+<%- include("../_header2"); -%>
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <title>ประวัติการยืม-คืน</title>
+
+    <style>
+        /* ...css เก่า... */
+
+        .table-wrapper {
+            width: 90%;
+            margin: 20px auto;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .table-wrapper::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .table-wrapper::-webkit-scrollbar-thumb {
+            background-color: rgba(0,0,0,0.3);
+            border-radius: 4px;
+        }
+
+        .table-wrapper::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        .table-wrapper {
+            scrollbar-width: thin;
+            scrollbar-color: rgba(0,0,0,0.3) transparent;
+        }
+    </style>
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- DataTables -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+</head>
+<body>
+    <h1>ประวัติการยืม-คืนอุปกรณ์</h1>
+
+    <div class="table-wrapper">
+        <table id="historyTable" class="display" style="width:100%">
+            <thead>
+                <tr>
+                    <th>รหัสอุปกรณ์</th>
+                    <th>ชื่ออุปกรณ์</th>
+                    <th>จำนวน</th>
+                    <th>วัน-เวลาที่ยืม</th>
+                    <th>วัน-เวลาที่คืน</th>
+                    <th>สถานะ</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% if (history.length > 0) { %>
+                    <% history.forEach(item => { %>
+                        <tr>
+                            <td><%= item.equipment_code %></td>
+                            <td><%= item.equipment_name %></td>
+                            <td><%= item.quantity %></td>
+                            <td><%= item.date_borrowed_th %></td>
+                            <td><%= item.date_returned_th %></td>
+                            <td>
+                                <% 
+                                    let statusThai = '';
+                                    switch(item.status) {
+                                        case 'pending':
+                                            statusThai = 'รอดำเนินการ';
+                                            break;
+                                        case 'approved':
+                                            statusThai = 'อนุมัติแล้ว';
+                                            break;
+                                        case 'rejected':
+                                            statusThai = 'ปฏิเสธ';
+                                            break;
+                                        case 'returned':
+                                            statusThai = 'คืนแล้ว';
+                                            break;
+                                        default:
+                                            statusThai = item.status;
+                                    }
+                                %>
+                                <%= statusThai %>
+                            </td>
+                        </tr>
+                    <% }) %>
+                <% } else { %>
+                    <tr>
+                        <td colspan="6">ไม่พบประวัติการยืมคืน</td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+
+
+    <script>
+    $(document).ready(function() {
+        $('#historyTable').DataTable({
+            language: {
+                search: "ค้นหา:",
+                lengthMenu: "แสดง _MENU_ รายการ",
+                info: "แสดง _START_ ถึง _END_ จาก _TOTAL_ รายการ",
+                paginate: {
+                    first: "หน้าแรก",
+                    last: "หน้าสุดท้าย",
+                    next: "ถัดไป",
+                    previous: "ก่อนหน้า"
+                },
+                emptyTable: "ไม่พบข้อมูล",
+            },
+            paging: true,
+            ordering: true,
+            info: true,
+            autoWidth: false,
+            scrollX: true
+        });
+    });
+    </script>
+</body>
+
+    <%- include("../_footer"); -%>
+</body>
+</html>

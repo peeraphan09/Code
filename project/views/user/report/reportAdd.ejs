@@ -1,0 +1,17 @@
+<%- include('../../_header1') %>
+<div class="container mt-4">
+  <h3>แจ้งเรื่อง/ติดต่อเจ้าหน้าที่</h3>
+  <form action="/user/reports/add" method="POST">
+    <div class="mb-3">
+      <label>เรื่อง</label>
+      <input type="text" name="subject" class="form-control" required>
+    </div>
+    <div class="mb-3">
+      <label>หมายเหตุ</label>
+      <textarea name="note" class="form-control" rows="4"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">ส่งเรื่อง</button>
+    <a href="/user/reports" class="btn btn-secondary">ย้อนกลับ</a>
+  </form>
+</div>
+<%- include('../../_footer1') %>

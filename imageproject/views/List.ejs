@@ -1,0 +1,249 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image List</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <h1>Image List</h1>
+    <div class="image-list">
+        <% images.forEach(function(image) { %>
+            <div class="image-item">
+                <img src="/images/<%= image.filename %>" alt="<%= image.filename %>" class="thumbnail">
+                <p><strong>Filename:</strong> <%= image.filename %></p>
+                <p><strong>Timestamp:</strong> <%= image.timestamp %></p>
+            </div>
+        <% }); %>
+    </div>
+    <a href="/home" class="back-button">Back to Home</a>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image List with Date Filter</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            text-align: center;
+        }
+        nav ul li {
+            display: inline;
+            margin: 0 15px;
+        }
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+        }
+        main {
+            padding: 20px;
+        }
+        .filter-container {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+        .filter-container label {
+            font-size: 16px;
+        }
+        .filter-container select {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            background-color: #fff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .filter-container select:hover {
+            background-color: #f0f0f0;
+        }
+        .big-image-container {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .big-image-container img {
+            width: 80%;
+            max-width: 600px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .image-gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .image-gallery-item {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+        .image-gallery-item:hover {
+            transform: scale(1.05);
+        }
+        .image-gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        .image-overlay {
+            position: absolute;
+            bottom: 10px;
+            left: 0;
+            right: 0;
+            padding: 5px;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: #fff;
+            font-size: 14px;
+            text-align: center;
+            border-radius: 0 0 10px 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Gallery</h1>
+        <nav>
+            <ul>
+                <li><a href="/home">Home</a></li>
+                <li><a href="/list">Image List</a></li>
+                <li><a href="/images">Image Upload</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <h1>Image List</h1>
+
+        <!-- Filter by Date -->
+        <div class="filter-container">
+            <label for="dateFilter">Filter by Date:</label>
+            <select id="dateFilter" onchange="filterByDate()">
+                <option value="">Select a Date</option>
+                <% 
+                    let dates = [];
+                    images.forEach(function(image) {
+                        let date = new Date(image.timestamp).toLocaleDateString('en-US', { timeZone: 'Asia/Bangkok' });
+                        if (!dates.includes(date)) {
+                            dates.push(date);
+                        }
+                    });
+                    dates.forEach(function(date) { 
+                %>
+                    <option value="<%= date %>"><%= date %></option>
+                <% }); %>
+            </select>
+        </div>
+
+        <!-- Display Big Image (First image or the first selected image) -->
+        <div class="big-image-container" id="bigImageContainer">
+            <img src="/images/<%= images[0].filename %>" alt="<%= images[0].filename %>">
+            <div>
+                <p><strong>Filename:</strong> <%= images[0].filename %></p>
+                <p><i class="fas fa-calendar-alt icon"></i> <%= new Date(images[0].timestamp).toLocaleString('en-US', { timeZone: 'Asia/Bangkok' }) %></p>
+            </div>
+        </div>
+
+        <!-- Image Gallery -->
+        <div class="image-gallery" id="imageGallery">
+            <% images.forEach(function(image) { %>
+                <div class="image-gallery-item" data-date="<%= new Date(image.timestamp).toLocaleDateString('en-US', { timeZone: 'Asia/Bangkok' }) %>">
+                    <img src="/images/<%= image.filename %>" alt="<%= image.filename %>" class="thumbnail">
+                    <div class="image-overlay">
+                        <p><strong>Filename:</strong> <%= image.filename %></p>
+                        <p><i class="fas fa-calendar-alt icon"></i> <%= new Date(image.timestamp).toLocaleString('en-US', { timeZone: 'Asia/Bangkok' }) %></p>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+    </main>
+
+    <script>
+        function filterByDate() {
+            var selectedDate = document.getElementById('dateFilter').value;
+            var images = document.querySelectorAll('.image-gallery-item');
+            var selectedImages = [];
+
+            // Filter images based on the selected date
+            images.forEach(function(image) {
+                if (selectedDate === "" || image.getAttribute('data-date') === selectedDate) {
+                    image.style.display = 'block';
+                    selectedImages.push(image);
+                } else {
+                    image.style.display = 'none';
+                }
+            });
+
+            // If there are images for the selected date, display the latest one as the big image
+            if (selectedImages.length > 0) {
+                selectedImages.sort(function(a, b) {
+                    var timestampA = new Date(a.querySelector('.image-overlay p:nth-child(2)').textContent).getTime();
+                    var timestampB = new Date(b.querySelector('.image-overlay p:nth-child(2)').textContent).getTime();
+                    return timestampB - timestampA; // Sort descending by timestamp (latest first)
+                });
+
+                var latestImage = selectedImages[0];
+                updateBigImage(latestImage);
+            }
+        }
+
+        function updateBigImage(imageElement) {
+            var bigImageContainer = document.querySelector('.big-image-container img');
+            var imageInfo = imageElement.querySelector('.image-overlay');
+
+            // Update the big image container
+            bigImageContainer.src = imageElement.querySelector('img').src;
+            var filename = imageInfo.querySelector('p').textContent.split(": ")[1];
+            var timestamp = imageInfo.querySelector('p').nextElementSibling.textContent.split(": ")[1];
+
+            // Update image details
+            var bigImageDetails = document.querySelector('.big-image-container div');
+            bigImageDetails.innerHTML = `<p><strong>Filename:</strong> ${filename}</p><p><i class="fas fa-calendar-alt icon"></i> ${timestamp}</p>`;
+
+            // Scroll to the top to show the big image
+            document.getElementById('bigImageContainer').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Add event listener to each image in the gallery to update the big image on click
+        document.querySelectorAll('.image-gallery-item').forEach(function(item) {
+            item.addEventListener('click', function() {
+                updateBigImage(item);
+            });
+        });
+    </script>
+</body>
+</html>
+
+
+

@@ -1,0 +1,48 @@
+<%- include('../../_header1') %>
+
+<div class="container mt-4">
+  <h3>📄 ใบแจ้งชำระเงินของคุณ</h3>
+
+  <% if (bills.length === 0) { %>
+    <div class="alert alert-warning">คุณยังไม่มีบิลค่าน้ำ-ค่าไฟ</div>
+  <% } else { %>
+    <table class="table table-bordered text-center">
+      <thead>
+        <tr>
+          <th>เดือน</th>
+          <th>ค่าเช่า</th>
+          <th>ค่าน้ำ</th>
+          <th>ค่าไฟ</th>
+          <th>รวม</th>
+          <th>สถานะ</th>
+          <th>จัดการ</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% bills.forEach(b => { %>
+          <tr>
+            <td><%= b.bill_month %></td>
+            <td><%= b.rent_amount.toFixed(2) %></td>
+            <td><%= b.water_amount.toFixed(2) %></td>
+            <td><%= (b.electricity_units * 7).toFixed(2) %> (<%= b.electricity_units %> หน่วย)</td>
+            <td><%= b.total_amount.toFixed(2) %></td>
+            <td><%= b.status %></td>
+            <td>
+            <a href="/uploads/bills/<%= b.bill_image %>" target="_blank" 
+              class="btn btn-sm btn-secondary me-1" title="ดูบิล">
+              <i class="fas fa-eye"></i> ดูบิล
+            </a>
+
+            <a href="/uploads/bills/<%= b.bill_image %>" download 
+              class="btn btn-sm btn-info" title="ดาวน์โหลดบิล">
+              <i class="fas fa-download"></i> ดาวน์โหลด
+            </a>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  <% } %>
+</div>
+
+<%- include('../../_footer1') %>

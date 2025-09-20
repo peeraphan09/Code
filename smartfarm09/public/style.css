@@ -1,0 +1,134 @@
+.body {
+    background-color: rgb(180, 243, 240);
+    background-size: cover;
+    background-position: center;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: auto;
+    position: relative;
+    z-index: 1;
+    font-family: Arial, sans-serif;
+}
+.navbar-brand {
+    font-size: 24px; /* ขนาดตัวอักษรของชื่อเว็บ */
+    font-weight: bold; /* ตัวหนา */
+}
+
+.dropdown-menu {
+    background-color: #fff; /* สีพื้นหลังของเมนู dropdown */
+    border: none; /* ไม่มีเส้นขอบ */
+}
+
+.dropdown-item {
+    color: #000; /* สีข้อความ */
+}
+.container2 {
+    display: grid;
+    grid-template-columns: repeat(3, 300px); /* 3 คอลัมน์ที่มีขนาดเท่ากัน */
+    grid-gap: 20px; /* ระยะห่างระหว่างอิเล็มเมนต์ */
+    justify-content: center; /* จัดตำแหน่งแนวนอนให้กล่อง grid อยู่ตรงกลาง */
+    align-items: center; /* จัดตำแหน่งแนวตั้งให้กล่อง grid อยู่ตรงกลาง */
+    margin-top: 50px; /* เพิ่มระยะห่างขอบบนของจอ */
+}
+
+.card {
+    background: #fff; /* สีพื้นหลังของการ์ด */
+    padding: 30px; /* การ์ดมีขอบสัมผัสด้วยขอบขนาด 30px */
+    border-radius: 10px; /* มุมของการ์ดมีรูปร่างมนเมือง 10px */
+    text-align: center; /* ข้อความภายในการ์ดจัดตรงกลาง */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* เพิ่มเงาใต้การ์ด */
+}
+
+.card i {
+    font-size: 50px; /* ขนาดไอคอนในการ์ด */
+    margin-bottom: 20px; /* ระยะห่างด้านล่างของไอคอน */
+}
+
+.card ul {
+    list-style: none; /* เอาเครื่องหมายลูกศรออกจากลิสต์ */
+    padding: 0; /* ลบการเส้นขีดซ้าย */
+}
+
+.card ul li {
+    margin-bottom: 10px; /* ระยะห่างด้านล่างของแต่ละรายการในลิสต์ */
+}
+
+.card a {
+    text-decoration: none; /* เอาการเส้นใต้ออก */
+    color: #333; /* สีข้อความ */
+    font-weight: bold; /* ตัวหนา */
+}
+
+.card a:hover {
+    color: #007bff; /* เปลี่ยนสีข้อความเมื่อนำเม้าส์ไปวางบนลิงค์ */
+}
+
+.card ul li a:hover {
+    color: #007bff; /* เปลี่ยนสีข้อความลิงค์เมื่อโฮเวอร์ */
+}
+.logo img {
+    max-width: 100px; /* ปรับขนาดของโลโก้ตามความเหมาะสม */
+}
+
+.logo h1 {
+    margin-top: 10px;
+    font-size: 24px;
+    color: #333; /* สีของข้อความ */
+}
+.slideshow-container {
+    position: relative;
+    max-width: 1000px;
+    margin: auto;
+}
+
+.mySlides {
+    display: none;
+}
+
+.prev, .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    width: auto;
+    margin-top: -22px;
+    padding: 16px;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    transition: 0.6s ease;
+    border-radius: 0 3px 3px 0;
+    user-select: none;
+}
+
+.next {
+    right: 0;
+    border-radius: 3px 0 0 3px;
+}
+
+.prev:hover, .next:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.text {
+    color: #f2f2f2;
+    font-size: 15px;
+    padding: 8px 12px;
+    position: absolute;
+    bottom: 8px;
+    width: 100%;
+    text-align: center;
+}
+
+.numbertext {
+    color: #f2f2f2;
+    font-size: 12px;
+    padding: 8px 12px;
+    position: absolute;
+    top: 0;
+}
+
+img {
+    width: 100%;
+    height: auto;
+}

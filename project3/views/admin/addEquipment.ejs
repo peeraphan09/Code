@@ -1,0 +1,89 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เพิ่มอุปกรณ์ใหม่</title>
+</head>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    max-width: 500px;
+    margin: 30px auto;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  }
+
+  h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+  }
+
+  form label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 600;
+    color: #555;
+  }
+
+  form input[type="text"],
+  form input[type="number"],
+  form select,
+  form input[type="file"] {
+    width: 100%;
+    padding: 8px 10px;
+    margin-bottom: 18px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+  }
+
+  form button {
+    width: 100%;
+    padding: 12px;
+    background-color: #2262c3;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  form button:hover {
+    background-color: #254ccd;
+  }
+</style>
+<body>
+    <h1>เพิ่มอุปกรณ์ใหม่</h1>
+    <form action="/admin/addEquipment" method="post" enctype="multipart/form-data">
+        <label for="equipment_code">รหัสอุปกรณ์</label>
+        <input type="text" id="equipment_code" name="equipment_code" required><br>
+
+        <label for="name">ชื่อ</label>
+        <input type="text" id="name" name="name" required><br>
+
+        <label for="category">หมวดหมู่</label>
+        <input type="text" id="category" name="category" required><br>
+
+        <label for="quantity">จำนวน</label>
+        <input type="number" id="quantity" name="quantity" required><br>
+
+        <label for="status">สถานะ</label>
+        <select id="status" name="status">
+            <option value="available">พร้อมใช้งาน</option>
+            <option value="unavailable">ไม่พร้อมใช้งาน</option>
+        </select><br>
+
+        <label for="image">รูปภาพอุปกรณ์</label>
+        <input type="file" id="image" name="image" accept="image/*"><br>
+
+        <button type="submit">เพิ่มอุปกรณ์</button>
+    </form>
+</body>
+</html>

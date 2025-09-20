@@ -1,0 +1,59 @@
+<%- include('../../_header') %>
+<div class="container mt-4">
+  <h3>แก้ไขสัญญาเช่า</h3>
+  <form action="/admin/contracts/edit/<%= contract.id %>" method="POST" enctype="multipart/form-data">
+    <div class="mb-3">
+      <label>ผู้เช่า</label>
+      <select name="user_id" class="form-control" required>
+        <% users.forEach(u => { %>
+          <option value="<%= u.id %>" <%= contract.user_id === u.id ? "selected" : "" %>><%= u.full_name %></option>
+        <% }) %>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label>ห้อง</label>
+      <select name="room_id" class="form-control" required>
+        <% rooms.forEach(r => { %>
+          <option value="<%= r.id %>" <%= contract.room_id === r.id ? "selected" : "" %>>
+            <%= r.room_number %> (฿<%= r.price %>)
+          </option>
+        <% }) %>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label>วันเริ่มต้น</label>
+      <input type="date" name="start_date" value="<%= contract.start_date.toISOString().split('T')[0] %>" class="form-control">
+    </div>
+    <div class="mb-3">
+      <label>วันสิ้นสุด</label>
+      <input type="date" name="end_date" value="<%= contract.end_date.toISOString().split('T')[0] %>" class="form-control">
+    </div>
+    <div class="mb-3">
+      <label>ค่าเช่า</label>
+      <input type="number" name="rent_price" value="<%= contract.rent_price %>" class="form-control">
+    </div>
+    <div class="mb-3">
+      <label>เงินมัดจำ</label>
+      <input type="number" name="deposit" value="<%= contract.deposit %>" class="form-control">
+    </div>
+    <div class="mb-3">
+      <label>สถานะ</label>
+      <select name="status" class="form-control">
+        <option value="active" <%= contract.status === 'active' ? 'selected' : '' %>>กำลังดำเนินการ</option>
+        <option value="ended" <%= contract.status === 'ended' ? 'selected' : '' %>>เสร็จสิ้น</option>
+        <option value="cancelled" <%= contract.status === 'cancelled' ? 'selected' : '' %>>ยกเลิก</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label>รูปภาพสัญญาเช่า</label><br>
+      <% if (contract.image_path) { %>
+        <img src="<%= contract.image_path %>" width="150" class="mb-2"><br>
+        <small>อัพโหลดใหม่เพื่อแทนที่</small>
+      <% } %>
+      <input type="file" name="contract_image" class="form-control">
+    </div>
+    <button type="submit" class="btn btn-primary">บันทึกการแก้ไข</button>
+    <a href="/admin/contracts" class="btn btn-secondary">ยกเลิก</a>
+  </form>
+</div>
+<%- include('../../_footer') %>

@@ -1,0 +1,40 @@
+<%- include("_header"); -%>
+<body class="body">
+    <br>
+    <br>
+    <br>
+    <% if (device09) { %>
+        <div class="container mt-5">
+            <h3 align="center"> Device09 </h3>
+        <div class="row justify-content-center">
+            <div class='col -md-3'>
+                <form action="/device/update/<%= device09.did %>" method="post">
+                    <div class='form-group'>
+                        <label form="Name">Name</label>
+                        <input type='text' name='Name' placeholder='name' value="<%= device09.Name %>" class='form-control'>
+                    </div>
+                    <br>
+                    <div class='form-group'>
+                        <label form="mac">Mac</label>
+                        <input type='text' name='Mac' placeholder='mac' value="<%= device09.mac %>" class='form-control'>
+                    </div>
+                    <br>
+                    <div class='form-group'>
+                        <label form="Model">Model</label>
+                        <input type='text' name='Model' placeholder='Model' value="<%= device09.Model %>" class='form-control'>
+                    </div>
+                    <br>
+                    <div class='form-group'>
+                        <label form="version">Version</label>
+                        <input type='text' name='Version' placeholder='version' value="<%= device09.version %>" class='form-control'>
+                    </div>
+                    <br>
+                    <button type='submit' class='btn btn-primary'>แก้ไข</button> 
+                    <a href="/device" class="btn btn-primary">กลับ</a>
+                </form>
+            </div>
+        </div>
+    </div>
+    <% } %>
+</body>
+<%- include("_footer"); -%>

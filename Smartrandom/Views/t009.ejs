@@ -1,0 +1,38 @@
+<%- include("_header"); -%>
+<body class="body">
+    <div class="row mt-5">
+        <div class="col-md-9 mx-auto">
+            <div class="container mt-3">
+                <h3 align="center" style="color: black;">t009</h3>
+                <a href="/t009/add" class="btn btn-primary"> เพิ่มข้อมูล </a>
+                <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>NO</th>
+                        <th>DATE</th>
+                        <th>Number</th>
+                        <th>action</th>
+                    </tr>
+                </thead>
+                <% if (t009) { %>
+                    <% for(var i=0; i<t009.length; i++) { %>
+                        <tr>
+                            <td><%= (i+1) %></td>
+                            <td><%= t009[i].tn09.toISOString().split('T')[0] %></td>
+                            <td><%= t009[i].to09 %></td>
+                            <td>
+                                <a href="/t009/update/<%= t009[i].tm09 %>" class="btn btn-warning">แก้ไข</a>
+                                <a href="/t009/delete/<%= t009[i].tm09 %>" class="btn btn-danger">ลบ</a>
+                            </td>
+                        </tr>
+                    <% } %>
+                <% } %>
+            </table>
+            <a href="/" class="btn btn-primary">กลับ</a>
+        </div>
+    </div>
+</div>
+</body>
+
+<%- include("_footer"); -%>
+

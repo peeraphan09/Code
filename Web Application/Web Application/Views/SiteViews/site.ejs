@@ -1,0 +1,38 @@
+<%- include("../_header"); -%>
+<body class="body">
+    <div class="row mt-5">
+        <div class="col-md-9 mx-auto">
+            <div class="container mt-3">
+                <h3 align="center" style="color: black;">site09</h3>
+                <a href="/site/add" class="btn btn-primary"> เพิ่มข้อมูล </a>
+                <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>NO</th>
+                        <th>Name</th>
+                        <th>address</th>
+                        <th>action</th>
+                    </tr>
+                </thead>
+                <% if (site09) { %>
+                    <% for(var i=0; i<site09.length; i++) { %>
+                        <tr>
+                            <td><%= (i+1) %></td>
+                            <td><%= site09[i].Name %></td>
+                            <td><%= site09[i].address %></td>
+                            <td>
+                                <a href="/site/update/<%= site09[i].sid %>" class="btn btn-warning">แก้ไข</a>
+                                <a href="/site/delete/<%= site09[i].sid %>" class="btn btn-danger">ลบ</a>
+                            </td>
+                        </tr>
+                    <% } %>
+                <% } %>
+            </table>
+            <a href="/" class="btn btn-primary">กลับ</a>
+        </div>
+    </div>
+</div>
+</body>
+
+<%- include("../_footer"); -%>
+

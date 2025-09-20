@@ -1,0 +1,50 @@
+<%- include("_header"); -%>
+<br>
+<br>
+<br>
+<h3 align="center"> BOONPUN </h3>
+<div class="container">
+    <div class="row mt-5">  
+        <div class="col-md-9">
+            <div>
+                <a href="/boonpun/new" class="btn btn-primary">Add</a>
+                <br>
+                <br>
+            </div>
+        </div>
+        <div class="col-md-15">
+            <table class="table table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Name</th>
+                        <th>Student28</th>
+                        <th>Telephone28</th>
+                        <th>Student34</th>
+                        <th>Telephone34</th>
+                        <th>Address</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <% if (data) { %>
+                    <% for (var i = 0; i < data.length; i++) { %>
+                        <tr>
+                            <td><%= (i + 1) %></td>
+                            <td><%= data[i].Name09 %></td>
+                            <td><%= data[i].Student28 %></td>
+                            <td><%= data[i].Telephone28 %></td>
+                            <td><%= data[i].Student34 %></td>
+                            <td><%= data[i].Telephone34 %></td>
+                            <td><%= data[i].Address %></td>
+                            <td>
+                                <a href="/boonpun/edit/<%= data[i].id %>" class="btn btn-info" style="width: 80px;">Edit</a>
+                                <a href="/boonpun/delete/<%= data[i].id %>" class="btn btn-danger">Delete</a> 
+                            </td>
+                        </tr>
+                    <% } %>
+                <% } %>
+            </table>
+        </div>
+    </div>
+</div>
+<%- include("_footer"); -%>
